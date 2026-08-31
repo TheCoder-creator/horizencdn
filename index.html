@@ -82,6 +82,27 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 .image-grid img{width:100%;height:130px;object-fit:cover;border-radius:10px;cursor:pointer;transition:.2s;border:1px solid rgba(255,255,255,0.05)}
 .image-grid img:hover{transform:scale(1.03);border-color:var(--accent)}
 
+/* ===== SEARCH: WEBSITES & VIDEOS ===== */
+.website-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px}
+.website-card{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;padding:14px;cursor:pointer;transition:.2s}
+.website-card:hover{border-color:var(--accent);background:rgba(0,235,132,0.05);transform:translateY(-2px)}
+.wc-icon{width:38px;height:38px;border-radius:10px;background:rgba(0,235,132,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden}
+.wc-icon img{width:20px;height:20px;border-radius:4px}
+.wc-body{flex:1;min-width:0}
+.wc-title{font-size:14px;font-weight:700;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wc-url{font-size:11px;color:var(--accent);margin:2px 0 4px}
+.wc-desc{font-size:12px;color:#999;line-height:1.5}
+.video-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.video-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer;transition:.2s}
+.video-card:hover{border-color:var(--accent);transform:translateY(-3px)}
+.video-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#111}
+.vc-info{padding:10px 12px}
+.vc-title{font-size:13px;font-weight:600;color:#fff;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vc-channel{font-size:11px;color:#888;margin-top:4px}
+#video-player-box{display:none;aspect-ratio:16/9;width:100%;max-width:860px;margin:0 auto 18px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:#000}
+#video-player-box iframe{width:100%;height:100%;border:0}
+.videos-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+
 /* ===== APP STORE ===== */
 .store-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
 .store-card{background:rgba(255,255,255,0.03);border:1px solid var(--border);border-radius:16px;padding:14px;cursor:pointer;transition:.2s}
@@ -298,7 +319,7 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 .stw-title{font-size:13px;font-weight:700;color:#ff9500;margin-bottom:4px}
 .stw-msg{font-size:12px;color:#aaa}
 
-/* ===== NOTIFICATIONS ANIMATION (used by screen time warning) ===== */
+/* ===== ANIMATIONS ===== */
 @keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
 
 /* ===== LOCATION ===== */
@@ -592,6 +613,7 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
           <div class="popular-link" onclick="openUrl('https://horizensearch.com','Main Search')"><i class="fas fa-globe"></i> Main Search</div>
           <div class="popular-link" onclick="openUrl('https://ai.horizensearch.com','Horizen AI')"><i class="fas fa-brain"></i> Horizen AI</div>
           <div class="popular-link" onclick="openUrl('https://gd.horizensearch.com','Geometry Dash')"><i class="fas fa-gamepad"></i> Geometry Dash</div>
+          <div class="popular-link" onclick="openUrl('https://video.horizensearch.com','Horienvideo')"><i class="fas fa-video"></i> Horienvideo</div>
           <div class="popular-link" onclick="switchTab('store');loadAppStore();"><i class="fas fa-store"></i> App Store</div>
           <div class="popular-link" onclick="openUrl('https://family.horizensearch.com','HorizenFamily')"><i class="fas fa-users"></i> Family</div>
         </div>
@@ -605,7 +627,9 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
       <h2 id="search-title" style="color:#888;font-size:15px;margin-bottom:18px;"></h2>
       <div class="filter-bar">
         <button class="filter-btn active" onclick="switchFilter('all',this)">All</button>
+        <button class="filter-btn" onclick="switchFilter('websites',this)">Websites</button>
         <button class="filter-btn" onclick="switchFilter('images',this)">Images</button>
+        <button class="filter-btn" id="filter-videos" onclick="switchFilter('videos',this)">Videos</button>
         <button class="filter-btn" onclick="switchFilter('facts',this)">Facts</button>
       </div>
       <div id="content-all" class="content-section active">
@@ -613,10 +637,24 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
           <div class="ai-overview-header"><i class="fas fa-sparkles"></i> AI Overview</div>
           <div class="ai-overview-content" id="inline-ai-box">Search to load results.</div>
         </div>
+        <div id="all-websites-preview" class="website-grid" style="margin-top:16px;"></div>
         <div id="all-images-preview" class="image-grid" style="margin-top:16px;"></div>
+        <div id="all-videos-preview" class="video-grid" style="margin-top:16px;"></div>
+      </div>
+      <div id="content-websites" class="content-section">
+        <div style="font-size:12px;color:#666;margin-bottom:14px;"><i class="fas fa-wand-magic-sparkles" style="color:var(--accent);margin-right:5px;"></i> Websites curated by Horizen AI</div>
+        <div id="websites-grid" class="website-grid"></div>
       </div>
       <div id="content-images" class="content-section">
         <div id="full-images-grid" class="image-grid"></div>
+      </div>
+      <div id="content-videos" class="content-section">
+        <div class="videos-toolbar">
+          <div style="font-size:12px;color:#666;"><i class="fas fa-video" style="color:var(--accent);margin-right:5px;"></i> Videos powered by Horienvideo</div>
+          <button class="search-btn" style="padding:8px 14px;font-size:11px;" onclick="openUrl('https://video.horizensearch.com','Horienvideo')"><i class="fas fa-arrow-up-right-from-square"></i> Open Horienvideo</button>
+        </div>
+        <div id="video-player-box"><iframe id="video-player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>
+        <div id="videos-grid" class="video-grid"></div>
       </div>
       <div id="content-facts" class="content-section">
         <div class="ai-overview-box">
@@ -641,44 +679,96 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 
 <script>
 /* ================================================================
-   CONFIGURATION — Replace these with your actual keys
+   CONFIGURATION
    ================================================================ */
 const HS_SUPABASE_URL='https://xlisbmtenekjmundxbcn.supabase.co';
 const HS_SUPABASE_KEY='sb_publishable_Cvs-AiKPTHrC_tfGfwlpSQ_4Hir5Cva';
 const PEXELS_KEY='QmebQALowGk9LoYQqUGaPhQ5zUMQWwd1mRaFTV4HvNQyYS1i6v9H5V68';
+const HORIZEN_API='https://api.horizensearch.com';
+const HORIZEN_MODEL='horizen-70b';
+const YOUTUBE_API_KEY='AIzaSyDgir7W26YD_PaZjbxU2iWYTZhW4Vf_n84';
 
-/* Create Supabase client */
 const sb=supabase.createClient(HS_SUPABASE_URL,HS_SUPABASE_KEY);
 
 /* ================================================================
-   HORIZENSEARCH STATE
+   STATE
    ================================================================ */
-let openTabs=[],myAddress='',blockChannel=null,appCache=[],blockPollInterval=null;
+let openTabs=[],myAddress='',appCache=[],blockPollInterval=null;
 let browsingHistory=JSON.parse(localStorage.getItem('hz_history')||'[]');
-let contextUrl='',speedTestRunning=false,wifiTabState='networks';
-let groqKeyCache='';
+let speedTestRunning=false,wifiTabState='networks';
 let aiSearchCache=JSON.parse(localStorage.getItem('hz_ai_cache')||'{}');
 let currentAdmin=null;
 let horizenAccount=JSON.parse(localStorage.getItem('hz_account')||'null');
 let horizenAuthTab='login';
-let screenTimeStart=Date.now(),screenTimeInterval=null,screenTimeLimitMinutes=0,todayScreenMinutes=0;
+let screenTimeInterval=null,screenTimeLimitMinutes=0,todayScreenMinutes=0;
 let familyRestrictions=null,familyLocked=false;
 let locationTrackingEnabled=false,locationTrackingInterval=null,lastLocationSent=null;
 let suggestionTimeout=null;
 
 /* ================================================================
-   SHARED UTILITIES
+   UTILITIES
    ================================================================ */
 function escHtml(s){const d=document.createElement('div');d.textContent=s||'';return d.innerHTML;}
-function escH(t){return String(t??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
 function showToast(msg,title,icon){title=title||'Horizon OS';icon=icon||'🔔';const t=document.getElementById('toast');document.getElementById('toast-title').textContent=title;document.getElementById('toast-msg').textContent=msg;document.getElementById('toast-icon').textContent=icon;t.classList.add('show');clearTimeout(t._timer);t._timer=setTimeout(()=>t.classList.remove('show'),4000);}
 function timeAgo(ts){const s=Math.floor((Date.now()-ts)/1000);if(s<60)return'Just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';return Math.floor(s/86400)+'d ago';}
-function fmtSize(b){return b>1048576?(b/1048576).toFixed(1)+' MB':b>1024?(b/1024).toFixed(0)+' KB':b+' B'}
-function fileIcon(n){const e=(n.split('.').pop()||'').toLowerCase();return{pdf:'📄',doc:'📝',docx:'📝',xls:'📊',xlsx:'📊',jpg:'🖼️',jpeg:'🖼️',png:'🖼️',gif:'🖼️',mp4:'🎬',mp3:'🎵',zip:'🗜️',rar:'🗜️'}[e]||'📎'}
-function fmtDur(s){const m=Math.floor(s/60),sec=s%60;return m>0?`${m}m ${sec}s`:`${sec}s`}
-function genId(){return Date.now().toString(36)+'-'+Math.random().toString(36).slice(2,10)}
 function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px'}
 async function sha256(message){const msgBuffer=new TextEncoder().encode(message);const hashBuffer=await crypto.subtle.digest('SHA-256',msgBuffer);return Array.from(new Uint8Array(hashBuffer)).map(b=>b.toString(16).padStart(2,'0')).join('');}
+
+/* ===== SEARCH AI CACHE ===== */
+function getSearchCache(key,field){const c=aiSearchCache[key];if(!c)return null;if(typeof c==='string')return field==='overview'?c:null;return c[field]!==undefined?c[field]:null;}
+function setSearchCache(key,field,value){let c=aiSearchCache[key];if(!c||typeof c==='string')c=(typeof c==='string')?{overview:c}:{};c[field]=value;aiSearchCache[key]=c;try{const keys=Object.keys(aiSearchCache);if(keys.length>100)delete aiSearchCache[keys[0]];localStorage.setItem('hz_ai_cache',JSON.stringify(aiSearchCache));}catch(e){}}
+
+/* ================================================================
+   HORIZEN AI (api.horizensearch.com)
+   Powers: AI Overview, Facts, Websites, Assistant
+   ================================================================ */
+/* ================================================================
+   GROQ AI (free tier — get a key at console.groq.com)
+   Key priority: 1) GROQ_KEY constant below  2) Supabase api_keys table
+   ================================================================ */
+const GROQ_KEY='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'; /* ← PASTE YOUR GROQ KEY HERE (gsk_...) for instant fix */
+const GROQ_MODELS=['openai/gpt-oss-120b','qwen/qwen3.6-27b'];
+let groqKeyCache='',groqKeyChecked=false;
+
+async function getGroqKey(){
+  if(groqKeyCache)return groqKeyCache;
+  if(groqKeyChecked)return'';
+  groqKeyChecked=true;
+  /* 1) Hardcoded key (recommended — works instantly) */
+  if(GROQ_KEY&&GROQ_KEY.length>20){groqKeyCache=GROQ_KEY;devLog('Groq key: loaded from code','info');return groqKeyCache;}
+  /* 2) Supabase lookup (with diagnostics) */
+  try{
+    const{data,error}=await sb.from('api_keys').select('key_value,is_active').eq('key_name','groq').maybeSingle();
+    if(error)devLog('Groq key DB error: '+error.message,'warn');
+    else if(!data)devLog('Groq key: no row in api_keys (key_name=groq) — paste a key into GROQ_KEY','warn');
+    else if(!data.is_active)devLog('Groq key: found but is_active=false','warn');
+    else if(data.key_value){groqKeyCache=data.key_value;devLog('Groq key: loaded from Supabase','info');}
+  }catch(e){devLog('Groq key lookup failed: '+e.message,'warn');}
+  return groqKeyCache;
+}
+
+async function getGroqChat(userMsg,sysMsg){
+  const key=await getGroqKey();
+  if(!key)return'Sorry, AI is not configured yet. Get a free key at console.groq.com and paste it into GROQ_KEY in the code.';
+  for(const model of GROQ_MODELS){
+    try{
+      const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},
+        body:JSON.stringify({model,messages:[{role:'system',content:sysMsg||'Keep answers short, under 4 sentences.'},{role:'user',content:userMsg}],temperature:0.7})
+      });
+      if(res.status===401)return'AI error: invalid Groq API key — check it at console.groq.com.';
+      if(res.status===429)return'AI error: Groq rate limit hit — try again in a few seconds.';
+      const data=await res.json();
+      if(data?.error){devLog('Groq error ('+model+'): '+data.error.message,'error');continue;}
+      const t=data?.choices?.[0]?.message?.content;
+      if(t)return t;
+    }catch(e){devLog('Groq request failed ('+model+'): '+e.message,'error');}
+  }
+  return'AI request failed.';
+}
+
+async function getHorizenChat(userMsg,sysMsg){return getGroqChat(userMsg,sysMsg);}
 
 /* ================================================================
    DEV TOOLS
@@ -691,12 +781,6 @@ const origLog=console.log,origErr=console.error,origWarn=console.warn;
 console.log=function(...a){devLog(a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' '),'info');origLog.apply(console,a);};
 console.error=function(...a){devLog(a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' '),'error');origErr.apply(console,a);};
 console.warn=function(...a){devLog(a.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join(' '),'warn');origWarn.apply(console,a);};
-
-/* ================================================================
-   GROQ (HorizenSearch)
-   ================================================================ */
-async function getGroqKey(){if(groqKeyCache)return groqKeyCache;try{const{data}=await sb.from('api_keys').select('key_value').eq('key_name','groq').eq('is_active',true).maybeSingle();groqKeyCache=data?.key_value||'';return groqKeyCache;}catch(e){return'';}}
-async function getGroqChat(userMsg,sysMsg){try{const key=await getGroqKey();if(!key)return'Sorry, AI is currently unavailable.';const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+key},body:JSON.stringify({model:'llama-3.3-70b-versatile',messages:[{role:'system',content:sysMsg||'Keep answers short, under 4 sentences.'},{role:'user',content:userMsg}],temperature:0.7})});const data=await res.json();return data?.choices?.[0]?.message?.content||'No response.';}catch(e){return'AI request failed.';}}
 
 /* ================================================================
    SUGGESTIONS
@@ -782,7 +866,7 @@ function openSignInsPanel(){
 function closeSignInsPanel(){document.getElementById('signins-panel').classList.remove('open');}
 
 /* ================================================================
-   FAMILY / SCREEN TIME / LOCATION (kept from original HS)
+   FAMILY / SCREEN TIME / LOCATION
    ================================================================ */
 function startScreenTimeTracking(){if(screenTimeInterval)clearInterval(screenTimeInterval);screenTimeLimitMinutes=familyRestrictions?.screen_time_limit_minutes||0;loadTodayScreenTime();screenTimeInterval=setInterval(async()=>{todayScreenMinutes++;document.getElementById('ha-screentime').textContent=todayScreenMinutes+' min';if(todayScreenMinutes%5===0)saveScreenTime();if(screenTimeLimitMinutes>0){const remaining=screenTimeLimitMinutes-todayScreenMinutes;if(remaining===10||remaining===5)showScreenTimeWarning(`You have ${remaining} minutes of screen time remaining today.`);if(remaining<=0){showScreenTimeWarning('Screen time limit reached.');lockBrowser();}}},60000);}
 async function loadTodayScreenTime(){if(!horizenAccount)return;try{const today=new Date().toISOString().split('T')[0];const{data}=await sb.from('screen_time_logs').select('minutes_used').eq('account_id',horizenAccount.id).eq('date',today).maybeSingle();todayScreenMinutes=data?.minutes_used||0;document.getElementById('ha-screentime').textContent=todayScreenMinutes+' min';}catch(e){}}
@@ -802,7 +886,7 @@ async function loadFamilyRestrictions(){
 function lockBrowser(){familyLocked=true;document.getElementById('family-lock-overlay').classList.add('show');}
 function unlockBrowserSilent(){familyLocked=false;document.getElementById('family-lock-overlay').classList.remove('show');}
 async function tryUnlockBrowser(){const code=document.getElementById('lock-code-input').value.trim();if(!code)return showToast('Enter unlock code','Lock','⚠️');try{const{data}=await sb.from('family_restrictions').select('unlock_code').eq('child_account_id',horizenAccount?.id).maybeSingle();if(data?.unlock_code&&data.unlock_code===code){unlockBrowserSilent();showToast('Browser unlocked','Lock','🔓');}else showToast('Incorrect code','Lock','❌');}catch(e){}}
-function openHorizenFamily(){if(!horizenAccount){showToast('Sign in to your Horizen account first','HorizonFamily','⚠️');openHorizenSignIn();return;}openUrl('https://family.horizensearch.com','HorizenFamily');}
+function openHorizenFamily(){if(!horizenAccount){showToast('Sign in to your Horizen account first','HorizenFamily','⚠️');openHorizenSignIn();return;}openUrl('https://family.horizensearch.com','HorizenFamily');}
 
 /* ===== LOCATION TRACKING ===== */
 function startLocationTracking(){if(locationTrackingEnabled||!navigator.geolocation)return;locationTrackingEnabled=true;updateLocationIndicator();sendLocationUpdate();if(locationTrackingInterval)clearInterval(locationTrackingInterval);locationTrackingInterval=setInterval(sendLocationUpdate,5*60*1000);}
@@ -821,7 +905,7 @@ function saveTabs(){const tabs=openTabs.map(id=>({id,name:document.querySelector
 function restoreTabs(){try{JSON.parse(localStorage.getItem('hz_open_tabs')||'[]').forEach(t=>{if(t.id&&t.name&&!['home','results','store'].includes(t.id)&&t.src)createNewTab(t.name,null,t.src,null,false);});}catch(e){}}
 function switchTab(id){document.querySelectorAll('.view-pane').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));const vp=document.getElementById('view-'+id),tb=document.getElementById('tab-'+id);if(vp)vp.classList.add('active');if(tb){tb.classList.add('active');tb.style.display='flex';}if(id==='store')loadAppStore();}
 function enableDrag(tab){tab.addEventListener('dragstart',()=>tab.classList.add('dragging'));tab.addEventListener('dragend',()=>{tab.classList.remove('dragging');saveTabs();});tab.addEventListener('dragover',e=>{e.preventDefault();const d=document.querySelector('.tab.dragging');if(!d||d===tab)return;const r=tab.getBoundingClientRect();tab.parentNode.insertBefore(d,(e.clientX-r.left)<r.width/2?tab:tab.nextSibling);});}
-const quickMap={'docs.google.com':'Google Docs','drive.google.com':'Google Drive','mail.google.com':'Gmail','youtube.com':'YouTube','twitter.com':'X','x.com':'X','facebook.com':'Facebook','instagram.com':'Instagram','reddit.com':'Reddit','github.com':'GitHub','wikipedia.org':'Wikipedia','amazon.com':'Amazon','netflix.com':'Netflix','spotify.com':'Spotify','discord.com':'Discord','twitch.tv':'Twitch','linkedin.com':'LinkedIn','tiktok.com':'TikTok','horizensearch.com':'Horizon Search','ai.horizensearch.com':'Horizen AI','gd.horizensearch.com':'Geometry Dash','family.horizensearch.com':'HorizenFamily'};
+const quickMap={'docs.google.com':'Google Docs','drive.google.com':'Google Drive','mail.google.com':'Gmail','youtube.com':'YouTube','twitter.com':'X','x.com':'X','facebook.com':'Facebook','instagram.com':'Instagram','reddit.com':'Reddit','github.com':'GitHub','wikipedia.org':'Wikipedia','amazon.com':'Amazon','netflix.com':'Netflix','spotify.com':'Spotify','discord.com':'Discord','twitch.tv':'Twitch','linkedin.com':'LinkedIn','tiktok.com':'TikTok','horizensearch.com':'Horizon Search','ai.horizensearch.com':'Horizen AI','gd.horizensearch.com':'Geometry Dash','video.horizensearch.com':'Horienvideo','family.horizensearch.com':'HorizenFamily'};
 function quickShorten(url){try{const u=new URL(url),h=u.hostname.replace(/^www\./,'');if(quickMap[h])return quickMap[h];for(const[d,l]of Object.entries(quickMap)){if(h.endsWith('.'+d))return l;}return null;}catch(e){return null;}}
 async function createNewTab(name,html,url,srcdoc,doSwitch=true){
   if(familyLocked){showToast('Browser is locked by your parent','HorizenFamily','🔒');return;}
@@ -850,7 +934,74 @@ function confirmNewWindow(){let name=document.getElementById('new-win-name-input
 async function handleTopBar(){const val=document.getElementById('addr-bar').value.trim();if(!val)return;document.getElementById('addr-bar').value='';document.getElementById('search-suggestions-dropdown').style.display='none';if(val.startsWith('http://')||val.startsWith('https://')||val.includes('.'))openUrl(val.includes('://')?val:'https://'+val);else performSearch(val);}
 function switchFilter(fId,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));btn.classList.add('active');document.getElementById('content-'+fId).classList.add('active');}
 
-/* ===== SEARCH ===== */
+/* ================================================================
+   SEARCH (Horizen AI + Pexels + YouTube/Horienvideo)
+   ================================================================ */
+
+/* --- AI Websites: parse JSON array out of AI reply --- */
+function parseWebsitesJSON(text){
+  try{
+    const m=String(text).match(/\[[\s\S]*\]/);
+    if(!m)return null;
+    const arr=JSON.parse(m[0]);
+    if(!Array.isArray(arr))return null;
+    return arr.filter(s=>s&&s.url).map(s=>({title:s.title||'Website',url:String(s.url),desc:s.desc||s.description||''}));
+  }catch(e){return null;}
+}
+
+/* --- Render website cards (favicon + title + domain + desc) --- */
+function renderWebsites(sites,targetId,limit){
+  const el=document.getElementById(targetId);
+  if(!sites||!sites.length){if(targetId==='websites-grid')el.innerHTML='<div style="color:#666;font-size:13px;">No websites found.</div>';else el.innerHTML='';return;}
+  el.innerHTML=sites.slice(0,limit||sites.length).map(s=>{
+    let safeUrl=s.url.startsWith('http')?s.url:'https://'+s.url;
+    let domain='';try{domain=new URL(safeUrl).hostname;}catch(e){domain=safeUrl;}
+    const u=safeUrl.replace(/'/g,"%27");
+    const n=String(s.title||domain||'Website').replace(/'/g,"\\'");
+    return `<div class="website-card" onclick="openUrl('${u}','${n}')">
+      <div class="wc-icon"><img src="https://icons.duckduckgo.com/ip3/${domain}.ico" alt="" onerror="this.onerror=null;this.src='https://www.google.com/s2/favicons?domain=${domain}&sz=64'"></div>
+      <div class="wc-body">
+        <div class="wc-title">${escHtml(s.title||'Website')}</div>
+        <div class="wc-url">${escHtml(domain)}</div>
+        <div class="wc-desc">${escHtml(s.desc||'')}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* --- Videos (YouTube Data API, same key as Horienvideo) --- */
+async function fetchVideos(q){
+  try{
+    const r=await fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&maxResults=12&q='+encodeURIComponent(q)+'&key='+YOUTUBE_API_KEY);
+    const d=await r.json();
+    if(d.error)return[];
+    return (d.items||[]).filter(v=>v.id&&v.id.videoId);
+  }catch(e){return[];}
+}
+function renderVideos(videos,targetId,limit){
+  const el=document.getElementById(targetId);
+  if(!videos||!videos.length){if(targetId==='videos-grid')el.innerHTML='<div style="color:#666;font-size:13px;">No videos found. <span style="color:var(--accent);cursor:pointer;" onclick="openUrl(\'https://video.horizensearch.com\',\'Horienvideo\')">Try Horienvideo ↗</span></div>';else el.innerHTML='';return;}
+  el.innerHTML=videos.slice(0,limit||videos.length).map(v=>{
+    const id=v.id.videoId,t=v.snippet.title,c=v.snippet.channelTitle;
+    const thumb=(v.snippet.thumbnails?.medium||v.snippet.thumbnails?.default||{}).url||'';
+    return `<div class="video-card" onclick="playVideoResult('${id}')">
+      <img src="${thumb}" loading="lazy" alt="">
+      <div class="vc-info">
+        <div class="vc-title">${escHtml(t)}</div>
+        <div class="vc-channel">${escHtml(c)}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+function playVideoResult(videoId){
+  switchTab('results');
+  switchFilter('videos',document.getElementById('filter-videos'));
+  document.getElementById('video-player').src='https://www.youtube.com/embed/'+videoId+'?autoplay=1';
+  document.getElementById('video-player-box').style.display='block';
+  document.getElementById('video-player-box').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+/* --- Main search --- */
 async function performSearch(customQuery){
   const q=(customQuery||document.getElementById('search-input').value||'').trim();if(!q)return;
   document.getElementById('search-input').value='';document.getElementById('home-suggestions').style.display='none';
@@ -858,12 +1009,58 @@ async function performSearch(customQuery){
   if(horizenAccount)sb.from('account_search_history').insert({account_id:horizenAccount.id,query:q}).catch(()=>{});
   document.getElementById('search-title').innerText='Results for: '+q;
   document.getElementById('tab-results').style.display='flex';switchTab('results');
-  document.getElementById('all-images-preview').innerHTML='';document.getElementById('full-images-grid').innerHTML='';
+  ['all-websites-preview','websites-grid','all-images-preview','full-images-grid','all-videos-preview','videos-grid'].forEach(id=>document.getElementById(id).innerHTML='');
+  document.getElementById('video-player-box').style.display='none';document.getElementById('video-player').src='';
   switchFilter('all',document.querySelector('.filter-btn'));
   const cacheKey=q.toLowerCase();
-  if(aiSearchCache[cacheKey]){document.getElementById('inline-ai-box').innerText=aiSearchCache[cacheKey];document.getElementById('facts-content').innerText=aiSearchCache[cacheKey];}
-  else{document.getElementById('inline-ai-box').innerText='Generating AI answer...';document.getElementById('facts-content').innerText='Generating facts...';getGroqChat('Give a fact overview for: '+q,'Give a short, useful answer in 3-5 sentences.').then(t=>{document.getElementById('inline-ai-box').innerText=t;document.getElementById('facts-content').innerText=t;aiSearchCache[cacheKey]=t;try{const keys=Object.keys(aiSearchCache);if(keys.length>100)delete aiSearchCache[keys[0]];localStorage.setItem('hz_ai_cache',JSON.stringify(aiSearchCache));}catch(e){}});}
+
+  /* AI Overview (Horizen API) */
+  const overviewEl=document.getElementById('inline-ai-box');
+  const cachedOverview=getSearchCache(cacheKey,'overview');
+  if(cachedOverview){overviewEl.innerText=cachedOverview;}
+  else{
+    overviewEl.innerText='Generating AI answer...';
+    getHorizenChat('Give a fact overview for: '+q,'Give a short, useful answer in 3-5 sentences.').then(t=>{
+      if(!t)t='AI is unavailable right now.';
+      overviewEl.innerText=t;setSearchCache(cacheKey,'overview',t);
+    });
+  }
+
+  /* Facts (Horizen API) */
+  const factsEl=document.getElementById('facts-content');
+  const cachedFacts=getSearchCache(cacheKey,'facts');
+  if(cachedFacts){factsEl.innerText=cachedFacts;}
+  else{
+    factsEl.innerText='Generating facts...';
+    getHorizenChat('Give me interesting facts about: '+q,'You are a facts assistant. Return 4-6 short, interesting, accurate facts. Put each fact on its own line, starting with "• ".').then(t=>{
+      if(!t)t='Could not generate facts right now.';
+      factsEl.innerText=t;setSearchCache(cacheKey,'facts',t);
+    });
+  }
+
+  /* Websites (Horizen AI curated) */
+  const cachedSites=getSearchCache(cacheKey,'websites');
+  if(cachedSites&&cachedSites.length){renderWebsites(cachedSites,'websites-grid');renderWebsites(cachedSites,'all-websites-preview',4);}
+  else{
+    document.getElementById('websites-grid').innerHTML='<div style="color:#666;font-size:13px;"><span class="spinner"></span> Curating websites with Horizen AI...</div>';
+    getHorizenChat(
+      'List the 6 best real websites for the query: "'+q+'". Respond ONLY with a valid JSON array in this exact format, with no other text: [{"title":"Website Name","url":"https://example.com","desc":"Short one-line description"}]',
+      'You are a search engine assistant. You output only valid JSON arrays of real, well-known websites. No markdown, no code fences, no explanation.'
+    ).then(t=>{
+      const sites=parseWebsitesJSON(t);
+      if(sites&&sites.length){setSearchCache(cacheKey,'websites',sites);renderWebsites(sites,'websites-grid');renderWebsites(sites,'all-websites-preview',4);}
+      else{document.getElementById('websites-grid').innerHTML='<div style="color:#666;font-size:13px;">No websites found.</div>';}
+    });
+  }
+
+  /* Images (Pexels) */
   fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(q)+'&per_page=12',{headers:{Authorization:PEXELS_KEY}}).then(r=>r.json()).then(d=>{const imgs=(d.photos||[]).map(p=>`<img src="${p.src.medium}" onclick="setBG('${p.src.large2x}')" loading="lazy">`).join('');document.getElementById('all-images-preview').innerHTML=imgs;document.getElementById('full-images-grid').innerHTML=imgs;}).catch(()=>{});
+
+  /* Videos (YouTube / Horienvideo) */
+  fetchVideos(q).then(vids=>{
+    if(vids.length){renderVideos(vids,'videos-grid');renderVideos(vids,'all-videos-preview',4);}
+    else{renderVideos(null,'videos-grid');renderVideos(null,'all-videos-preview');}
+  });
 }
 
 /* ===== APP STORE ===== */
@@ -921,7 +1118,7 @@ function updateWifiIcon(){document.getElementById('wifi-icon').style.color=navig
 window.addEventListener('online',()=>{updateWifiIcon();showToast('Connected','Network','📶');});
 window.addEventListener('offline',()=>{updateWifiIcon();showToast('Disconnected','Network','⚠️');});
 
-/* ===== BOT ===== */
+/* ===== BOT (Horizen AI) ===== */
 function toggleBot(){document.getElementById('bot-panel').classList.toggle('open');}
 function addBotMsg(text,isUser){const box=document.getElementById('bot-messages');const div=document.createElement('div');div.className='bot-msg '+(isUser?'user':'bot');div.textContent=text;box.appendChild(div);box.scrollTop=box.scrollHeight;}
 function addBotTyping(){const box=document.getElementById('bot-messages');const div=document.createElement('div');div.className='bot-msg bot';div.id='bot-typing';div.innerHTML='<div class="typing-dots"><span></span><span></span><span></span></div>';box.appendChild(div);box.scrollTop=box.scrollHeight;}
@@ -931,10 +1128,12 @@ async function sendBot(){
   addBotMsg(msg,true);addBotTyping();const lower=msg.toLowerCase();
   if(lower.startsWith('open ')){removeBotTyping();const q=msg.substring(5).trim();if(q.includes('.')||q.startsWith('http')){openUrl(q.includes('://')?q:'https://'+q);addBotMsg('Opened '+q,false);return;}performSearch(q);addBotMsg('Searched for "'+q+'".',false);return;}
   if(lower.startsWith('search ')){removeBotTyping();performSearch(msg.substring(7).trim());addBotMsg('Searched!',false);return;}
+  if(lower.startsWith('videos ')){removeBotTyping();performSearch(msg.substring(7).trim());setTimeout(()=>playVideoTab(),600);addBotMsg('Searching videos!',false);return;}
   if(lower.startsWith('change wallpaper to ')){const query=msg.replace(/^change wallpaper to /i,'').trim();removeBotTyping();addBotMsg('Searching "'+query+'"...',false);try{const r=await fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(query)+'&per_page=6',{headers:{Authorization:PEXELS_KEY}});const d=await r.json();if(d.photos?.length){setBG(d.photos[0].src.large2x);addBotMsg('Wallpaper changed!',false);}else addBotMsg('No wallpapers found.',false);}catch(e){addBotMsg('Failed.',false);}return;}
   if(lower==='clear history'){removeBotTyping();clearHistory();addBotMsg('History cleared!',false);return;}
-  const response=await getGroqChat(msg,'You are the Horizon OS Assistant. Keep answers short.');removeBotTyping();addBotMsg(response,false);
+  const response=await getHorizenChat(msg,'You are the Horizon OS Assistant. Keep answers short.');removeBotTyping();addBotMsg(response||'Sorry, I could not respond right now.',false);
 }
+function playVideoTab(){const vp=document.getElementById('view-results');if(!vp.classList.contains('active'))return;switchFilter('videos',document.getElementById('filter-videos'));}
 
 /* ===== VOICE ===== */
 function startVoiceSearch(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){showToast('Voice not supported','Voice','🎤');return;}const rec=new SR();rec.lang='en-US';rec.interimResults=false;rec.onresult=e=>{const t=e.results[0][0].transcript;document.getElementById('search-input').value=t;performSearch(t);};rec.onerror=()=>showToast('Voice failed','Voice','🎤');rec.start();showToast('Listening...','Voice','🎤');}
