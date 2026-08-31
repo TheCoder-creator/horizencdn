@@ -4,16 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Horizen OS</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/dayjs.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/dayjs/1.11.10/plugin/relativeTime.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 /* ===== HORIZENSEARCH ROOT ===== */
 :root{--bg:#050505;--nav:#121212;--accent:#00eb84;--card:rgba(20,20,20,0.95);--text:#fff;--border:#333;--glass:rgba(18,18,18,0.92)}
-/* ===== HORIZENMESSAGES ROOT ===== */
-:root{--hm-bg:#0a0a0f;--hm-bg2:#111118;--hm-bg3:#18181f;--hm-bg4:#222230;--hm-border:#2a2a3a;--hm-accent:#6c63ff;--hm-accent2:#a78bfa;--hm-accent3:#38bdf8;--hm-green:#22d3a0;--hm-red:#f43f5e;--hm-yellow:#fbbf24;--hm-text:#e8e8f0;--hm-text2:#9090a8;--hm-text3:#5a5a72}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;background-size:cover;background-position:center;background-attachment:fixed}
 body::before{content:'';position:fixed;inset:0;background:rgba(5,5,5,0.6);z-index:0;pointer-events:none}
@@ -49,7 +45,6 @@ body>*{position:relative;z-index:1}
 #time{color:var(--accent);font-weight:700;font-variant-numeric:tabular-nums}
 .status-btn{background:none;border:none;color:inherit;cursor:pointer;font-size:13px;font-family:inherit;font-weight:inherit;display:flex;align-items:center;gap:5px;padding:4px 8px;border-radius:8px;transition:.15s}
 .status-btn:hover{background:rgba(255,255,255,0.06);color:#fff}
-.msg-badge{background:#ff4d6a;color:#fff;font-size:10px;font-weight:800;min-width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;padding:0 4px;line-height:1}
 
 /* ===== VIEWPORT ===== */
 #viewport{flex:1;position:relative;overflow:hidden}
@@ -222,7 +217,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 .fp-popup-item .fp-tag{font-size:10px;padding:2px 6px;border-radius:4px;font-weight:800;margin-left:auto}
 .fp-tag-admin{background:rgba(255,77,106,0.2);color:#ff4d6a}
 .fp-tag-horizen{background:rgba(0,235,132,0.2);color:var(--accent)}
-.fp-tag-hm{background:rgba(108,99,255,0.2);color:#a78bfa}
 
 /* ===== DEV TOOLS ===== */
 #dev-tools-modal{position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:45000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
@@ -304,268 +298,8 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 .stw-title{font-size:13px;font-weight:700;color:#ff9500;margin-bottom:4px}
 .stw-msg{font-size:12px;color:#aaa}
 
-/* ============================================================
-   HORIZENMESSAGES INLINE STYLES
-   ============================================================ */
-.hidden{display:none!important}
-
-/* HM AUTH SCREEN (shown as modal overlay) */
-#hm-auth-overlay{position:fixed;inset:0;z-index:50000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px)}
-#hm-auth-overlay.show{display:flex}
-.hm-auth-card{background:var(--hm-bg2);border:1px solid var(--hm-border);border-radius:20px;padding:36px;width:400px;box-shadow:0 40px 80px rgba(0,0,0,.5);max-height:90vh;overflow-y:auto}
-.hm-logo{display:flex;align-items:center;gap:12px;margin-bottom:24px}
-.hm-logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
-.hm-logo h2{font-family:'Syne',sans-serif;font-size:18px;font-weight:800}
-.hm-logo span{color:var(--hm-accent2)}
-.hm-auth-tabs{display:flex;gap:4px;background:var(--hm-bg3);border-radius:10px;padding:4px;margin-bottom:20px}
-.hm-auth-tab{flex:1;padding:8px;border:none;background:transparent;color:var(--hm-text2);border-radius:7px;cursor:pointer;font-family:'Syne',sans-serif;font-weight:600;font-size:13px}
-.hm-auth-tab.active{background:var(--hm-accent);color:#fff}
-.hm-fg{margin-bottom:12px}
-.hm-fg label{display:block;font-size:11px;color:var(--hm-text2);margin-bottom:4px;letter-spacing:.5px}
-.hm-fg input{width:100%;padding:10px 14px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:10px;color:var(--hm-text);outline:none;font-family:'DM Sans',sans-serif}
-.hm-fg input:focus{border-color:var(--hm-accent)}
-.hm-btn-primary{width:100%;padding:11px;background:linear-gradient(135deg,var(--hm-accent),#8b5cf6);border:none;border-radius:10px;color:#fff;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;cursor:pointer}
-.hm-btn-primary:disabled{opacity:.6;cursor:not-allowed}
-.hm-auth-msg{border-radius:8px;padding:9px 13px;font-size:12px;margin-bottom:12px;display:none;word-break:break-word}
-.hm-auth-msg.error{background:rgba(244,63,94,.1);border:1px solid rgba(244,63,94,.3);color:var(--hm-red)}
-.hm-auth-msg.success{background:rgba(34,211,160,.1);border:1px solid rgba(34,211,160,.3);color:var(--hm-green)}
-
-/* HM INLINE APP CONTAINER */
-#hm-app-container{width:100%;height:100%;display:flex;background:var(--hm-bg);font-family:'DM Sans',sans-serif;color:var(--hm-text);font-size:14px}
-#hm-app-container *{box-sizing:border-box}
-
-/* HM NAV RAIL */
-.hm-nav-rail{width:54px;background:var(--hm-bg2);border-right:1px solid var(--hm-border);display:flex;flex-direction:column;align-items:center;padding:12px 0;gap:4px;flex-shrink:0}
-.hm-nav-logo{width:32px;height:32px;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:12px}
-.hm-nav-btn{width:38px;height:38px;border-radius:10px;border:none;background:transparent;color:var(--hm-text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;position:relative}
-.hm-nav-btn.active{background:rgba(108,99,255,.15);color:var(--hm-accent2)}
-.hm-nav-btn .hm-badge{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--hm-red);border-radius:50%;border:2px solid var(--hm-bg2)}
-.hm-nav-spacer{flex:1}
-.hm-nav-me{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;margin-top:8px}
-
-/* HM SIDEBAR */
-.hm-sidebar{width:270px;background:var(--hm-bg2);border-right:1px solid var(--hm-border);display:flex;flex-direction:column;flex-shrink:0}
-.hm-panel{display:none;flex-direction:column;flex:1;overflow:hidden}
-.hm-panel.active{display:flex}
-.hm-panel-hdr{padding:16px 12px 10px;border-bottom:1px solid var(--hm-border);display:flex;align-items:center;justify-content:space-between}
-.hm-panel-title{font-family:'Syne',sans-serif;font-weight:800;font-size:14px}
-.hm-sbox{padding:8px 10px}
-.hm-sbox-wrap{position:relative}
-.hm-sbox input{width:100%;padding:6px 10px 6px 28px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:20px;color:var(--hm-text);font-size:12px;outline:none}
-.hm-sbox-icon{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--hm-text3);font-size:11px}
-.hm-ls{flex:1;overflow-y:auto;padding:4px 6px}
-.hm-sec-lbl{padding:5px 6px 2px;font-size:10px;letter-spacing:1px;color:var(--hm-text3);text-transform:uppercase;font-family:'Syne',sans-serif;font-weight:600}
-.hm-fi{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:10px;cursor:pointer}
-.hm-fi:hover,.hm-fi.active{background:var(--hm-bg3)}
-.hm-av{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:13px;flex-shrink:0;position:relative}
-.hm-av.sm{width:28px;height:28px;font-size:10px}
-.hm-sdot{position:absolute;bottom:0;right:0;width:7px;height:7px;border-radius:50%;background:var(--hm-text3);border:2px solid var(--hm-bg2)}
-.hm-sdot.on{background:var(--hm-green)}
-.hm-fi-info{flex:1;min-width:0}
-.hm-fi-name{font-weight:600;font-size:12px;font-family:'Syne',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hm-fi-sub{font-size:10px;color:var(--hm-text3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hm-fi-meta{text-align:right;flex-shrink:0}
-.hm-fi-time{color:var(--hm-text3);font-size:9px}
-.hm-fbtn{width:24px;height:24px;border-radius:6px;border:1px solid var(--hm-border);background:var(--hm-bg3);color:var(--hm-text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px}
-.hm-req-count{background:var(--hm-red);color:#fff;border-radius:10px;padding:1px 5px;font-size:9px;font-weight:700;margin-left:4px}
-.hm-icon-btn{width:26px;height:26px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--hm-text2);font-size:13px}
-
-/* HM CHAT AREA */
-.hm-chat-area{flex:1;display:flex;flex-direction:column;min-width:0}
-.hm-chat-hdr{padding:11px 16px;border-bottom:1px solid var(--hm-border);display:flex;align-items:center;gap:10px;background:var(--hm-bg2)}
-.hm-chat-hdr-info{flex:1}
-.hm-chat-hdr-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14px}
-.hm-chat-hdr-status{color:var(--hm-text2);font-size:11px;margin-top:1px}
-.hm-chat-hdr-acts{display:flex;gap:5px}
-.hm-cbtn{width:32px;height:32px;border-radius:8px;border:1px solid var(--hm-border);background:var(--hm-bg3);color:var(--hm-text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px}
-.hm-cbtn.ai-btn{background:rgba(108,99,255,.12);border-color:rgba(108,99,255,.3);color:var(--hm-accent2)}
-
-/* HM MESSAGES */
-.hm-msgs{flex:1;overflow-y:auto;padding:14px 16px;display:flex;flex-direction:column;gap:3px;background:var(--hm-bg)}
-.hm-mrow{display:flex;align-items:flex-end;gap:6px;margin-bottom:2px}
-.hm-mrow.mine{flex-direction:row-reverse}
-.hm-mrow.mine .hm-mav{display:none}
-.hm-mav{flex-shrink:0}
-.hm-mbub{max-width:64%;padding:8px 12px;border-radius:16px;font-size:13px;line-height:1.5;word-break:break-word}
-.hm-mbub.theirs{background:var(--hm-bg3);border:1px solid var(--hm-border);border-bottom-left-radius:4px;color:var(--hm-text)}
-.hm-mbub.mine{background:linear-gradient(135deg,var(--hm-accent),#7c3aed);border-bottom-right-radius:4px;color:#fff;margin-left:auto}
-.hm-mbub.call-ev{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.2);color:var(--hm-text2);font-size:11px;padding:7px 12px}
-.hm-mbub.ai-msg{background:linear-gradient(135deg,rgba(56,189,248,.15),rgba(108,99,255,.15));border:1px solid rgba(108,99,255,.25);border-bottom-left-radius:4px;color:var(--hm-text)}
-.hm-mtime{font-size:9px;color:var(--hm-text3);padding:0 3px;flex-shrink:0;align-self:flex-end;margin-bottom:2px}
-.hm-day-div{text-align:center;color:var(--hm-text3);font-size:9px;letter-spacing:1px;margin:8px 0;text-transform:uppercase;display:flex;align-items:center;gap:8px}
-.hm-day-div::before,.hm-day-div::after{content:'';flex:1;height:1px;background:var(--hm-border)}
-.hm-file-bubble{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--hm-bg4);border-radius:10px;max-width:240px;text-decoration:none;border:1px solid var(--hm-border)}
-.hm-file-icon{font-size:18px;flex-shrink:0}
-.hm-file-info{flex:1;min-width:0}
-.hm-file-name{font-size:12px;font-weight:600;color:var(--hm-text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hm-file-size{font-size:10px;color:var(--hm-text2)}
-
-/* HM TYPING */
-.hm-typing-row{display:flex;align-items:center;gap:6px;padding:3px 0 5px;min-height:24px}
-.hm-typing-dots{display:flex;gap:2px;align-items:center}
-.hm-typing-dots span{width:4px;height:4px;border-radius:50%;background:var(--hm-text3);animation:hm_tdot 1.3s infinite}
-.hm-typing-dots span:nth-child(2){animation-delay:.15s}
-.hm-typing-dots span:nth-child(3){animation-delay:.3s}
-@keyframes hm_tdot{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-4px)}}
-.hm-typing-label{font-size:10px;color:var(--hm-text3);font-style:italic}
-
-/* HM INPUT */
-.hm-chat-input-area{border-top:1px solid var(--hm-border);background:var(--hm-bg2)}
-.hm-file-preview-bar{display:none;align-items:center;gap:6px;padding:6px 16px 0}
-.hm-file-preview-bar.show{display:flex}
-.hm-fp-inner{display:flex;align-items:center;gap:6px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:8px;padding:5px 9px;flex:1}
-.hm-file-preview-name{flex:1;font-size:11px;color:var(--hm-text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hm-file-preview-rm{width:16px;height:16px;border-radius:3px;border:none;background:transparent;color:var(--hm-text3);cursor:pointer;font-size:12px;line-height:1}
-.hm-input-wrap{padding:8px 16px 10px}
-.hm-irow{display:flex;align-items:flex-end;gap:6px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:14px;padding:6px 10px}
-.hm-irow:focus-within{border-color:var(--hm-accent)}
-.hm-attach-btn,.hm-emoji-btn{width:26px;height:26px;border-radius:6px;border:none;background:transparent;color:var(--hm-text3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-#hm-msg-input{flex:1;background:transparent;border:none;outline:none;color:var(--hm-text);font-size:13px;resize:none;max-height:100px;line-height:1.5;font-family:'DM Sans',sans-serif}
-.hm-send-btn{width:30px;height:30px;background:linear-gradient(135deg,var(--hm-accent),#7c3aed);border:none;border-radius:7px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
-#hm-file-input{display:none}
-
-/* HM EMPTY STATE */
-.hm-empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--hm-text3);gap:10px}
-.hm-empty-state .hm-ei{font-size:44px}
-.hm-empty-state h3{font-family:'Syne',sans-serif;color:var(--hm-text2);font-size:15px}
-
-/* HM EMOJI PICKER */
-.hm-emoji-picker{position:absolute;bottom:60px;left:16px;background:var(--hm-bg2);border:1px solid var(--hm-border);border-radius:14px;padding:10px;width:290px;box-shadow:0 20px 60px rgba(0,0,0,.5);display:none;z-index:500}
-.hm-emoji-picker.show{display:block}
-.hm-emoji-cats{display:flex;gap:3px;margin-bottom:8px;overflow-x:auto}
-.hm-emoji-cat{padding:4px 8px;border-radius:20px;border:none;background:transparent;cursor:pointer;font-size:14px}
-.hm-emoji-cat:hover,.hm-emoji-cat.active{background:var(--hm-bg3)}
-.hm-emoji-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:2px;max-height:160px;overflow-y:auto}
-.hm-emoji-btn-grid{width:30px;height:30px;border-radius:6px;border:none;background:transparent;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center}
-.hm-emoji-btn-grid:hover{background:var(--hm-bg3)}
-
-/* HM MODALS */
-.hm-modal-ov{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:1000}
-.hm-modal-ov.show{display:flex}
-.hm-modal{background:var(--hm-bg2);border:1px solid var(--hm-border);border-radius:18px;padding:22px;width:360px;box-shadow:0 40px 80px rgba(0,0,0,.5)}
-.hm-modal h2{font-size:15px;margin-bottom:14px;font-family:'Syne',sans-serif}
-.hm-ures{display:flex;align-items:center;gap:8px;padding:7px;border-radius:8px;cursor:pointer;justify-content:space-between}
-.hm-ures:hover{background:var(--hm-bg3)}
-.hm-ures-l{display:flex;align-items:center;gap:8px}
-.hm-bsm{padding:3px 10px;border-radius:6px;border:none;font-family:'Syne',sans-serif;font-weight:600;font-size:10px;cursor:pointer}
-.hm-bsm.add{background:var(--hm-accent);color:#fff}
-.hm-bsm.pend{background:var(--hm-bg4);color:var(--hm-text3);cursor:default}
-.hm-btn-sec{flex:1;padding:9px;background:var(--hm-bg3);border:1px solid var(--hm-border);border-radius:9px;color:var(--hm-text);font-family:'Syne',sans-serif;font-weight:600;font-size:11px;cursor:pointer}
-
-/* HM AI PANEL */
-#hm-ai-overlay{position:absolute;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:none;align-items:flex-end;justify-content:flex-end;z-index:1500;padding:16px}
-#hm-ai-overlay.show{display:flex}
-.hm-ai-panel{background:var(--hm-bg2);border:1px solid var(--hm-border);border-radius:18px;width:350px;height:480px;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6)}
-.hm-ai-hdr{padding:13px 15px;border-bottom:1px solid var(--hm-border);display:flex;align-items:center;gap:9px}
-.hm-ai-hdr-icon{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));display:flex;align-items:center;justify-content:center;font-size:13px}
-.hm-ai-hdr-info{flex:1}
-.hm-ai-hdr-name{font-family:'Syne',sans-serif;font-weight:700;font-size:13px}
-.hm-ai-hdr-model{font-size:9px;color:var(--hm-text3)}
-.hm-ai-close{width:24px;height:24px;border-radius:6px;border:none;background:var(--hm-bg3);color:var(--hm-text2);cursor:pointer;font-size:14px}
-.hm-ai-msgs{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:7px}
-.hm-ai-msg-row{display:flex;gap:7px}
-.hm-ai-msg-row.user{flex-direction:row-reverse}
-.hm-ai-msg-av{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
-.hm-ai-msg-av.bot{background:var(--hm-bg4);border:1px solid var(--hm-border)}
-.hm-ai-msg-av.human{background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));font-family:'Syne',sans-serif;font-weight:700}
-.hm-ai-msg-bub{max-width:78%;padding:8px 11px;border-radius:14px;font-size:12px;line-height:1.5;word-break:break-word}
-.hm-ai-msg-bub.bot{background:var(--hm-bg3);border:1px solid var(--hm-border);border-bottom-left-radius:4px}
-.hm-ai-msg-bub.human{background:linear-gradient(135deg,var(--hm-accent),#7c3aed);color:#fff;border-bottom-right-radius:4px}
-.hm-ai-irow{display:flex;gap:7px;padding:9px 12px;border-top:1px solid var(--hm-border)}
-#hm-ai-input{flex:1;background:transparent;border:none;outline:none;color:var(--hm-text);font-size:12px;resize:none;max-height:70px;line-height:1.5;font-family:'DM Sans',sans-serif}
-.hm-ai-send{width:28px;height:28px;background:linear-gradient(135deg,var(--hm-accent),#7c3aed);border:none;border-radius:7px;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px}
-
-/* HM AUDIO OVERLAY */
-#hm-audio-overlay{position:absolute;inset:0;z-index:2000;display:none;flex-direction:column;align-items:center;justify-content:center;background:radial-gradient(ellipse at 40% 30%,#1e1060 0%,#0a0a0f 65%)}
-#hm-audio-overlay.show{display:flex}
-.hm-audio-bg-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;overflow:hidden}
-.hm-audio-ring{position:absolute;border-radius:50%;border:1px solid rgba(108,99,255,.12);animation:hm_expand 3s ease-out infinite}
-.hm-audio-ring:nth-child(1){width:220px;height:220px}
-.hm-audio-ring:nth-child(2){width:320px;height:320px;animation-delay:.7s}
-.hm-audio-ring:nth-child(3){width:420px;height:420px;animation-delay:1.4s}
-@keyframes hm_expand{0%{opacity:.6;transform:scale(.8)}100%{opacity:0;transform:scale(1.15)}}
-.hm-audio-content{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center}
-.hm-audio-call-av{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--hm-accent),var(--hm-accent3));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:40px;margin-bottom:20px;box-shadow:0 0 0 6px rgba(108,99,255,.15),0 0 50px rgba(108,99,255,.35)}
-.hm-audio-call-name{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;margin-bottom:6px}
-.hm-audio-call-status{font-size:13px;color:var(--hm-text2);margin-bottom:4px}
-.hm-audio-call-timer{font-size:20px;font-family:'Syne',sans-serif;font-weight:700;color:var(--hm-accent2);margin-bottom:40px;min-height:28px}
-.hm-audio-ctrls{display:flex;gap:18px;align-items:center}
-.hm-acctrl{display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer}
-.hm-acctrl-btn{width:54px;height:54px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:20px}
-.hm-acctrl-btn.mute-btn,.hm-acctrl-btn.spk-btn{background:rgba(255,255,255,.1);color:#fff}
-.hm-acctrl-btn.end-btn{background:var(--hm-red);color:#fff;width:62px;height:62px;font-size:24px}
-.hm-acctrl-label{font-size:10px;color:var(--hm-text3);font-family:'Syne',sans-serif;font-weight:600}
-
-/* HM VIDEO OVERLAY */
-#hm-video-overlay{position:absolute;inset:0;background:#000;display:none;flex-direction:column;z-index:2000}
-#hm-video-overlay.show{display:flex}
-#hm-remote-video{width:100%;height:100%;object-fit:cover;background:#111}
-#hm-local-video{position:absolute;bottom:100px;right:16px;width:130px;height:82px;border-radius:10px;object-fit:cover;border:2px solid var(--hm-border);background:#222}
-.hm-vid-ctrls{position:absolute;bottom:0;left:0;right:0;padding:16px;display:flex;justify-content:center;gap:12px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
-.hm-vid-info{position:absolute;top:14px;left:14px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.8)}
-.hm-vid-status{position:absolute;top:40px;left:14px;font-size:11px;color:rgba(255,255,255,.7)}
-.hm-cctrl{width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(255,255,255,.15);color:#fff}
-.hm-cctrl.end{background:var(--hm-red);color:#fff;width:58px;height:58px;font-size:20px}
-.hm-cctrl.off{background:rgba(244,63,94,.35)}
-
-/* ===== HORIZENSEARCH NOTIFICATIONS (call + message) ===== */
+/* ===== NOTIFICATIONS ANIMATION (used by screen time warning) ===== */
 @keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes slideIn{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
-
-#msg-notif{position:fixed;top:14px;right:14px;width:340px;background:rgba(12,12,12,0.97);border:1px solid rgba(0,235,132,0.3);border-radius:16px;z-index:60000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 15px 50px rgba(0,0,0,0.8);backdrop-filter:blur(20px);animation:slideInRight .3s ease}
-#msg-notif.show{display:flex}
-.msg-notif-header{padding:12px 14px;background:rgba(0,235,132,0.1);border-bottom:1px solid rgba(0,235,132,0.2);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--accent)}
-.msg-notif-body{padding:12px 14px;font-size:13px;color:#ddd}
-.msg-notif-sender{font-weight:700;color:#fff;margin-bottom:3px}
-.msg-notif-text{color:#aaa;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.msg-notif-actions{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px}
-.msg-notif-btn{flex:1;padding:9px;border-radius:10px;border:none;font-size:12px;font-weight:700;cursor:pointer;transition:.15s}
-.msg-notif-btn.open{background:var(--accent);color:#000}
-.msg-notif-btn.voice{background:rgba(108,99,255,0.2);color:#a78bfa;border:1px solid rgba(108,99,255,0.4)}
-.msg-notif-btn.dismiss{background:rgba(255,255,255,0.06);color:#ccc;border:1px solid var(--border)}
-
-#call-notif{position:fixed;top:14px;right:14px;width:340px;background:rgba(12,12,12,0.97);border:1px solid rgba(108,99,255,0.4);border-radius:16px;z-index:61000;display:none;flex-direction:column;overflow:hidden;box-shadow:0 15px 50px rgba(0,0,0,0.8);backdrop-filter:blur(20px);animation:slideInRight .3s ease}
-#call-notif.show{display:flex}
-.call-notif-header{padding:12px 14px;background:rgba(108,99,255,0.15);border-bottom:1px solid rgba(108,99,255,0.25);display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#a78bfa}
-.call-notif-av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#38bdf8);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;font-family:'Syne',sans-serif;animation:callPulse 1.5s infinite}
-@keyframes callPulse{0%,100%{box-shadow:0 0 0 0 rgba(108,99,255,0.6)}50%{box-shadow:0 0 0 10px rgba(108,99,255,0)}}
-.call-notif-body{padding:14px;display:flex;align-items:center;gap:12px}
-.call-notif-info{flex:1}
-.call-notif-name{font-size:16px;font-weight:800;color:#fff}
-.call-notif-type{font-size:12px;color:#888;margin-top:2px}
-.call-notif-actions{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:8px}
-.call-notif-btn{flex:1;padding:10px;border-radius:10px;border:none;font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
-.call-notif-btn.accept{background:#22d3a0;color:#000}
-.call-notif-btn.decline{background:rgba(244,63,94,0.15);color:#f43f5e;border:1px solid rgba(244,63,94,0.3)}
-
-/* ===== HM CONNECT MODAL (new feature) ===== */
-#hm-connect-modal{position:fixed;inset:0;z-index:55000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px)}
-#hm-connect-modal.show{display:flex}
-.hm-connect-card{background:rgba(12,12,12,0.98);border:1px solid rgba(108,99,255,0.4);border-radius:22px;padding:30px;width:420px;max-width:92vw;box-shadow:0 30px 80px rgba(108,99,255,0.15);text-align:center}
-.hm-connect-icon{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#38bdf8);display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px;box-shadow:0 0 30px rgba(108,99,255,0.3)}
-.hm-connect-card h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;margin-bottom:6px;color:#fff}
-.hm-connect-card .hm-connect-sub{font-size:13px;color:#888;margin-bottom:22px;line-height:1.5}
-.hm-connect-card .hm-fg{text-align:left}
-.hm-connected-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(34,211,160,0.1);border:1px solid rgba(34,211,160,0.3);color:var(--hm-green);padding:6px 14px;border-radius:20px;font-size:12px;font-weight:700}
-
-/* ===== FRIEND CALL DIALER MODAL ===== */
-#hm-friends-modal{position:fixed;inset:0;z-index:56000;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);backdrop-filter:blur(10px)}
-#hm-friends-modal.show{display:flex}
-.hm-friends-card{background:rgba(12,12,12,0.98);border:1px solid rgba(108,99,255,0.4);border-radius:22px;padding:26px;width:400px;max-width:92vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(108,99,255,0.15)}
-.hm-friends-card h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;margin-bottom:4px;color:#fff;display:flex;align-items:center;gap:8px}
-.hm-friends-card .hm-connect-sub{font-size:12px;color:#888;margin-bottom:16px}
-.hm-friends-list{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;max-height:400px}
-.hm-friend-call-item{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;transition:.15s;border:1px solid transparent}
-.hm-friend-call-item:hover{background:rgba(108,99,255,0.08);border-color:rgba(108,99,255,0.2)}
-.hm-friend-call-item .hm-av{width:40px;height:40px;font-size:15px}
-.hm-friend-call-item .hm-fci-info{flex:1}
-.hm-friend-call-item .hm-fci-name{font-family:'Syne',sans-serif;font-weight:700;font-size:14px;color:#fff}
-.hm-friend-call-item .hm-fci-status{font-size:11px;color:var(--hm-text3)}
-.hm-friend-call-item .hm-fci-status.on{color:var(--hm-green)}
-.hm-fci-call-btns{display:flex;gap:6px}
-.hm-fci-call-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--hm-border);background:var(--hm-bg3);color:var(--hm-text2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;transition:.15s}
-.hm-fci-call-btn:hover{border-color:var(--hm-accent);color:var(--hm-accent2);background:rgba(108,99,255,0.1)}
-.hm-no-friends{padding:30px;text-align:center;color:var(--hm-text3);font-size:13px}
 
 /* ===== LOCATION ===== */
 .loc-indicator{display:flex;align-items:center;gap:5px;font-size:11px;color:#555;padding:3px 8px;border-radius:6px}
@@ -578,8 +312,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
   #bot-panel{width:calc(100vw - 40px);left:10px;bottom:70px}
   #horizen-account-panel{width:100vw;right:-100vw}
   #wifi-panel{width:calc(100vw - 20px);right:10px}
-  .hm-sidebar{width:220px}
-  #hm-connect-modal,#hm-friends-modal{padding:16px}
 }
 </style>
 </head>
@@ -600,36 +332,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 <div id="screen-time-warning">
   <div class="stw-title">⚠️ Screen Time Limit</div>
   <div class="stw-msg" id="stw-msg">You have 10 minutes remaining today.</div>
-</div>
-
-<!-- ===== MESSAGE NOTIFICATION (Voice Reply + Ignore) ===== -->
-<div id="msg-notif">
-  <div class="msg-notif-header"><i class="fas fa-comment"></i> HorizenMessages</div>
-  <div class="msg-notif-body">
-    <div class="msg-notif-sender" id="notif-sender">Someone</div>
-    <div class="msg-notif-text" id="notif-text">sent you a message</div>
-  </div>
-  <div class="msg-notif-actions">
-    <button class="msg-notif-btn voice" id="notif-voice-btn" onclick="voiceReplyFromNotif()"><i class="fas fa-microphone"></i> Voice Reply</button>
-    <button class="msg-notif-btn open" onclick="openMessagesTab()">Open</button>
-    <button class="msg-notif-btn dismiss" onclick="dismissMsgNotif()">Ignore</button>
-  </div>
-</div>
-
-<!-- ===== CALL NOTIFICATION (Accept / Decline) ===== -->
-<div id="call-notif">
-  <div class="call-notif-header"><i class="fas fa-phone-volume"></i> Incoming Call</div>
-  <div class="call-notif-body">
-    <div class="call-notif-av" id="call-notif-av">?</div>
-    <div class="call-notif-info">
-      <div class="call-notif-name" id="call-notif-name">Someone</div>
-      <div class="call-notif-type" id="call-notif-type">Audio Call</div>
-    </div>
-  </div>
-  <div class="call-notif-actions">
-    <button class="call-notif-btn decline" onclick="declineCallFromNotif()">📵 Decline</button>
-    <button class="call-notif-btn accept" onclick="acceptCallFromNotif()">📞 Accept</button>
-  </div>
 </div>
 
 <!-- CONTEXT MENU -->
@@ -679,7 +381,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 <div id="fp-popup">
   <div class="fp-popup-item" onclick="copyAddress()"><i class="fas fa-copy"></i> Copy Fingerprint</div>
   <div class="fp-popup-item" onclick="openHorizenSignIn()" id="fp-horizen-btn"><i class="fas fa-user-circle"></i> Horizen Sign-In <span class="fp-tag fp-tag-horizen" id="fp-horizen-tag" style="display:none">●</span></div>
-  <div class="fp-popup-item" onclick="openHMConnectModal()" id="fp-hm-btn"><i class="fas fa-comment-dots"></i> Messages Account <span class="fp-tag fp-tag-hm" id="fp-hm-tag" style="display:none">●</span></div>
   <div class="fp-popup-item" onclick="openAdminLogin()" id="fp-admin-btn"><i class="fas fa-shield-halved"></i> Admin Sign-In <span class="fp-tag fp-tag-admin" id="fp-admin-tag" style="display:none">●</span></div>
   <div class="fp-popup-item" onclick="openSignInsPanel()"><i class="fas fa-users"></i> Sign-In's</div>
 </div>
@@ -770,10 +471,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
       <div class="ha-stat"><span class="ha-stat-label">Apps Opened</span><span class="ha-stat-value" id="ha-apps">0</span></div>
     </div>
     <div class="ha-section">
-      <div class="ha-section-title"><i class="fas fa-comment-dots"></i> Messages Account</div>
-      <div id="ha-hm-info" style="color:#888;font-size:13px;">Not connected</div>
-    </div>
-    <div class="ha-section">
       <div class="ha-section-title"><i class="fas fa-shield-halved"></i> Family Status</div>
       <div id="ha-family-info" style="color:#888;font-size:13px;">Not connected to a family</div>
     </div>
@@ -811,7 +508,7 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
 <div id="bot-panel">
   <div class="bot-header"><div class="bot-dot"></div> Horizon Assistant</div>
   <div class="bot-messages" id="bot-messages">
-    <div class="bot-msg bot">Hey! I have full control over Horizon OS. Try: "open [url]", "search [query]", "change wallpaper to [topic]", "open messages", or ask me anything!</div>
+    <div class="bot-msg bot">Hey! I have full control over Horizon OS. Try: "open [url]", "search [query]", "change wallpaper to [topic]", or ask me anything!</div>
   </div>
   <div class="bot-input-row">
     <input type="text" id="bot-input" placeholder="Ask me anything..." onkeypress="if(event.key==='Enter')sendBot()">
@@ -843,51 +540,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
   <div id="wp-grid"></div>
 </div>
 
-<!-- ===== HM CONNECT MODAL (new) ===== -->
-<div id="hm-connect-modal">
-  <div class="hm-connect-card">
-    <div class="hm-connect-icon">💬</div>
-    <h3>Connect HorizenMessages</h3>
-    <p class="hm-connect-sub">Link your HorizenMessages account to receive calls and messages as notifications in Horizon OS.</p>
-    <div id="hm-connect-form">
-      <div class="auth-tabs-row">
-        <button class="auth-tab-btn active" id="hm-tab-login" onclick="switchHMTab('login')">Sign In</button>
-        <button class="auth-tab-btn" id="hm-tab-signup" onclick="switchHMTab('signup')">Create Account</button>
-      </div>
-      <div id="hm-login-form">
-        <div class="hm-fg"><label>EMAIL</label><input type="email" id="hm-login-email" placeholder="you@example.com"></div>
-        <div class="hm-fg"><label>PASSWORD</label><input type="password" id="hm-login-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doHMLogin()"></div>
-      </div>
-      <div id="hm-signup-form" style="display:none">
-        <div class="hm-fg"><label>USERNAME</label><input type="text" id="hm-signup-username" placeholder="yourname"></div>
-        <div class="hm-fg"><label>EMAIL</label><input type="email" id="hm-signup-email" placeholder="you@example.com"></div>
-        <div class="hm-fg"><label>PASSWORD</label><input type="password" id="hm-signup-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doHMSignup()"></div>
-      </div>
-      <div class="hm-auth-msg" id="hm-auth-msg"></div>
-      <button class="hm-btn-primary" id="hm-auth-btn" onclick="doHMAuth()" style="margin-top:4px">Sign In</button>
-    </div>
-    <div id="hm-connected-view" style="display:none">
-      <div class="hm-connected-badge"><i class="fas fa-check-circle"></i> Connected as <span id="hm-connected-name">...</span></div>
-      <div style="margin-top:18px;display:flex;gap:8px;justify-content:center;">
-        <button class="btn-cancel" onclick="disconnectHM()">Disconnect</button>
-        <button class="btn-primary" onclick="closeHMConnectModal()">Done</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ===== HM FRIENDS CALL DIALER (new) ===== -->
-<div id="hm-friends-modal">
-  <div class="hm-friends-card">
-    <h3><i class="fas fa-phone-volume" style="color:#a78bfa;"></i> Call a Friend</h3>
-    <p class="hm-connect-sub">Select a friend to start a call</p>
-    <div class="hm-friends-list" id="hm-friends-list"></div>
-    <div style="margin-top:14px;display:flex;justify-content:flex-end;">
-      <button class="btn-cancel" onclick="closeHMFriendsModal()" style="flex:none;padding:9px 24px;">Close</button>
-    </div>
-  </div>
-</div>
-
 <!-- TAB BAR -->
 <div id="tab-bar">
   <div class="tab active" id="tab-home" onclick="switchTab('home')"><span class="tab-label">Horizon</span></div>
@@ -914,7 +566,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
       <div class="weather-dropdown" id="weather-dropdown"></div>
     </button>
     <div class="status-item" onclick="toggleWifi()"><i class="fas fa-wifi" id="wifi-icon"></i></div>
-    <button class="status-btn" id="chat-status-btn" onclick="handleChatButtonClick()" title="Messages"><i class="fas fa-comment-dots"></i> <span class="msg-badge" id="chat-unread-badge" style="display:none;">0</span></button>
     <div class="status-item" id="battery"><i class="fas fa-battery-full"></i> --%</div>
     <button class="status-btn" id="role-mode-btn" onclick="openCodesModal()" title="Role Codes" style="display:none;"><i class="fas fa-shield-halved"></i> <span id="role-mode-label">Mode</span></button>
     <button class="status-btn" onclick="toggleHistory()" title="History"><i class="fas fa-clock-rotate-left"></i></button>
@@ -941,7 +592,6 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
           <div class="popular-link" onclick="openUrl('https://horizensearch.com','Main Search')"><i class="fas fa-globe"></i> Main Search</div>
           <div class="popular-link" onclick="openUrl('https://ai.horizensearch.com','Horizen AI')"><i class="fas fa-brain"></i> Horizen AI</div>
           <div class="popular-link" onclick="openUrl('https://gd.horizensearch.com','Geometry Dash')"><i class="fas fa-gamepad"></i> Geometry Dash</div>
-          <div class="popular-link" onclick="handleChatButtonClick()"><i class="fas fa-comment-dots"></i> Messages</div>
           <div class="popular-link" onclick="switchTab('store');loadAppStore();"><i class="fas fa-store"></i> App Store</div>
           <div class="popular-link" onclick="openUrl('https://family.horizensearch.com','HorizenFamily')"><i class="fas fa-users"></i> Family</div>
         </div>
@@ -987,169 +637,18 @@ iframe{width:100%;height:100%;border:none;background:#0a0a0a}
       <div class="store-grid" id="app-store-grid"></div>
     </div>
   </div>
-
-  <!-- ===== INLINE HORIZENMESSAGES VIEW ===== -->
-  <div id="view-hm" class="view-pane">
-    <div id="hm-app-container">
-      <!-- HM NAV RAIL -->
-      <div class="hm-nav-rail">
-        <div class="hm-nav-logo">💬</div>
-        <button class="hm-nav-btn active" id="hm-nav-friends" onclick="hmSwitchPanel('friends')" title="Messages">💬</button>
-        <button class="hm-nav-btn" id="hm-nav-add" onclick="hmSwitchPanel('add')" title="Friends">👥<span class="hm-badge" id="hm-req-badge" style="display:none"></span></button>
-        <div class="hm-nav-spacer"></div>
-        <button class="hm-nav-btn" onclick="hmDoLogout()" title="Sign out" style="font-size:14px">🚪</button>
-        <div class="hm-nav-me" id="hm-my-av">?</div>
-      </div>
-      <!-- HM SIDEBAR -->
-      <div class="hm-sidebar">
-        <div class="hm-panel active" id="hm-panel-friends">
-          <div class="hm-panel-hdr">
-            <div class="hm-panel-title">Messages</div>
-            <button class="hm-icon-btn" onclick="hmShowAddFriendModal()" title="Add friend">➕</button>
-          </div>
-          <div class="hm-sbox"><div class="hm-sbox-wrap"><span class="hm-sbox-icon">🔍</span><input type="text" id="hm-friend-search" placeholder="Search..." oninput="hmFilterFriends()"></div></div>
-          <div class="hm-ls" id="hm-friend-list"><div style="padding:16px;color:var(--hm-text3);text-align:center;font-size:12px">Loading...</div></div>
-        </div>
-        <div class="hm-panel" id="hm-panel-add">
-          <div class="hm-panel-hdr">
-            <div class="hm-panel-title">Friends <span id="hm-req-count-label"></span></div>
-            <button class="hm-icon-btn" onclick="hmShowAddFriendModal()" title="Add">➕</button>
-          </div>
-          <div class="hm-sbox"><div class="hm-sbox-wrap"><span class="hm-sbox-icon">🔍</span><input type="text" id="hm-pending-search" placeholder="Search..." oninput="hmFilterPending()"></div></div>
-          <div class="hm-ls" id="hm-pending-list"><div style="padding:16px;color:var(--hm-text3);text-align:center;font-size:12px">Loading...</div></div>
-        </div>
-      </div>
-      <!-- HM CHAT AREA -->
-      <div class="hm-chat-area">
-        <div class="hm-empty-state" id="hm-empty-state">
-          <div class="hm-ei">💬</div>
-          <h3>Click a friend to chat</h3>
-          <p>Messages are saved privately</p>
-        </div>
-        <div id="hm-active-chat" style="display:none;flex-direction:column;height:100%;position:relative;">
-          <div class="hm-chat-hdr">
-            <div class="hm-av sm" id="hm-chat-av">?</div>
-            <div class="hm-chat-hdr-info">
-              <div class="hm-chat-hdr-name" id="hm-chat-name">...</div>
-              <div class="hm-chat-hdr-status" id="hm-chat-status">...</div>
-            </div>
-            <div class="hm-chat-hdr-acts">
-              <button class="hm-cbtn ai-btn" onclick="hmToggleAI()" title="Ask AI">🤖</button>
-              <button class="hm-cbtn" onclick="hmStartCall('audio')" title="Voice call">📞</button>
-              <button class="hm-cbtn" onclick="hmStartCall('video')" title="Video call">📹</button>
-            </div>
-          </div>
-          <div class="hm-msgs" id="hm-msgs" onclick="hmCloseEmojiPicker()"></div>
-          <div class="hm-typing-row" id="hm-typing-row" style="padding:0 18px;">
-            <div class="hm-typing-dots" id="hm-typing-dots" style="display:none"><span></span><span></span><span></span></div>
-            <span class="hm-typing-label" id="hm-typing-label"></span>
-          </div>
-          <div class="hm-chat-input-area">
-            <div class="hm-file-preview-bar" id="hm-file-preview-bar">
-              <div class="hm-fp-inner">
-                <span style="font-size:14px" id="hm-file-preview-icon">📎</span>
-                <span class="hm-file-preview-name" id="hm-file-preview-name"></span>
-                <button class="hm-file-preview-rm" onclick="hmClearFile()">✕</button>
-              </div>
-            </div>
-            <div class="hm-input-wrap" style="position:relative;">
-              <div class="hm-irow">
-                <button class="hm-attach-btn" onclick="document.getElementById('hm-file-input').click()" title="Attach">📎</button>
-                <input type="file" id="hm-file-input" onchange="hmOnFileSelected(this)">
-                <button class="hm-emoji-btn" onclick="hmToggleEmojiPicker(event)" title="Emoji">😊</button>
-                <textarea id="hm-msg-input" placeholder="Type a message..." rows="1" onkeydown="hmHandleMsgKey(event)" oninput="hmOnMsgInput(this)"></textarea>
-                <button class="hm-send-btn" onclick="hmSendMessage()">➤</button>
-              </div>
-              <div class="hm-emoji-picker" id="hm-emoji-picker">
-                <div class="hm-emoji-cats" id="hm-emoji-cats"></div>
-                <div class="hm-emoji-grid" id="hm-emoji-grid"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- HM ADD FRIEND MODAL -->
-      <div class="hm-modal-ov" id="hm-add-friend-modal">
-        <div class="hm-modal">
-          <h2>Add Friend</h2>
-          <div class="hm-fg"><label>SEARCH BY USERNAME</label><input type="text" id="hm-friend-user-search" placeholder="Search username..." oninput="hmSearchUsersForFriend()"></div>
-          <div style="max-height:180px;overflow-y:auto;margin-top:6px;" id="hm-friend-user-results"></div>
-          <div style="display:flex;gap:8px;margin-top:14px;"><button class="hm-btn-sec" onclick="hmCloseAddFriendModal()">Close</button></div>
-        </div>
-      </div>
-      <!-- HM AI PANEL -->
-      <div id="hm-ai-overlay" onclick="if(event.target===this)hmToggleAI()">
-        <div class="hm-ai-panel">
-          <div class="hm-ai-hdr">
-            <div class="hm-ai-hdr-icon">🤖</div>
-            <div class="hm-ai-hdr-info">
-              <div class="hm-ai-hdr-name">Horizen AI</div>
-              <div class="hm-ai-hdr-model">GPT-OSS 20B</div>
-            </div>
-            <button class="hm-ai-close" onclick="hmToggleAI()">✕</button>
-          </div>
-          <div class="hm-ai-msgs" id="hm-ai-msgs"></div>
-          <div class="hm-ai-irow">
-            <textarea id="hm-ai-input" placeholder="Ask AI anything..." rows="1" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();hmSendAI()}" oninput="autoResize(this)"></textarea>
-            <button class="hm-ai-send" onclick="hmSendAI()">➤</button>
-          </div>
-        </div>
-      </div>
-      <!-- HM AUDIO OVERLAY -->
-      <div id="hm-audio-overlay">
-        <div class="hm-audio-bg-rings">
-          <div class="hm-audio-ring"></div><div class="hm-audio-ring"></div><div class="hm-audio-ring"></div>
-        </div>
-        <div class="hm-audio-content">
-          <div class="hm-audio-call-av" id="hm-audio-call-av">?</div>
-          <div class="hm-audio-call-name" id="hm-audio-call-name">...</div>
-          <div class="hm-audio-call-status" id="hm-audio-call-status">Connecting...</div>
-          <div class="hm-audio-call-timer" id="hm-audio-call-timer"></div>
-          <div class="hm-audio-ctrls">
-            <div class="hm-acctrl" onclick="hmToggleMuteAudio()">
-              <button class="hm-acctrl-btn mute-btn" id="hm-audio-mute-btn">🎤</button><span class="hm-acctrl-label">MUTE</span>
-            </div>
-            <div class="hm-acctrl" onclick="hmEndCall()">
-              <button class="hm-acctrl-btn end-btn">📵</button><span class="hm-acctrl-label">END</span>
-            </div>
-            <div class="hm-acctrl" onclick="hmToggleSpeaker()">
-              <button class="hm-acctrl-btn spk-btn" id="hm-audio-spk-btn">🔊</button><span class="hm-acctrl-label">SPEAKER</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- HM VIDEO OVERLAY -->
-      <div id="hm-video-overlay">
-        <video id="hm-remote-video" autoplay playsinline></video>
-        <video id="hm-local-video" autoplay playsinline muted></video>
-        <div class="hm-vid-info" id="hm-vid-call-name">...</div>
-        <div class="hm-vid-status" id="hm-vid-status">Connecting...</div>
-        <div class="hm-vid-ctrls">
-          <button class="hm-cctrl" id="hm-vid-mute-btn" onclick="hmToggleMute()">🎤</button>
-          <button class="hm-cctrl" id="hm-vid-cam-btn" onclick="hmToggleCamera()">📷</button>
-          <button class="hm-cctrl end" onclick="hmEndCall()">📵</button>
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
 
 <script>
-dayjs.extend(dayjs_plugin_relativeTime);
-
 /* ================================================================
    CONFIGURATION — Replace these with your actual keys
    ================================================================ */
 const HS_SUPABASE_URL='https://xlisbmtenekjmundxbcn.supabase.co';
 const HS_SUPABASE_KEY='sb_publishable_Cvs-AiKPTHrC_tfGfwlpSQ_4Hir5Cva';
-const HM_SUPABASE_URL='https://yketzrmrznbkjpsaptyd.supabase.co';
-const HM_SUPABASE_KEY='sb_publishable_JLEjdUaoWkJJ7vgPBmQuZg_6rTTS8Zt';
-const HM_GROQ_KEY='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';
 const PEXELS_KEY='QmebQALowGk9LoYQqUGaPhQ5zUMQWwd1mRaFTV4HvNQyYS1i6v9H5V68';
 
-/* Create both Supabase clients */
+/* Create Supabase client */
 const sb=supabase.createClient(HS_SUPABASE_URL,HS_SUPABASE_KEY);
-const hmSb=supabase.createClient(HM_SUPABASE_URL,HM_SUPABASE_KEY);
 
 /* ================================================================
    HORIZENSEARCH STATE
@@ -1157,46 +656,15 @@ const hmSb=supabase.createClient(HM_SUPABASE_URL,HM_SUPABASE_KEY);
 let openTabs=[],myAddress='',blockChannel=null,appCache=[],blockPollInterval=null;
 let browsingHistory=JSON.parse(localStorage.getItem('hz_history')||'[]');
 let contextUrl='',speedTestRunning=false,wifiTabState='networks';
-let groqKeyCache='',msgNotifTimer=null;
+let groqKeyCache='';
 let aiSearchCache=JSON.parse(localStorage.getItem('hz_ai_cache')||'{}');
 let currentAdmin=null;
 let horizenAccount=JSON.parse(localStorage.getItem('hz_account')||'null');
 let horizenAuthTab='login';
 let screenTimeStart=Date.now(),screenTimeInterval=null,screenTimeLimitMinutes=0,todayScreenMinutes=0;
 let familyRestrictions=null,familyLocked=false;
-let hmTabId=null,locationTrackingEnabled=false,locationTrackingInterval=null,lastLocationSent=null;
+let locationTrackingEnabled=false,locationTrackingInterval=null,lastLocationSent=null;
 let suggestionTimeout=null;
-
-/* ================================================================
-   HORIZENMESSAGES STATE
-   ================================================================ */
-let hmMe=null,hmMyProfile=null,hmFriends=[],hmPendingReqs=[],hmActiveFriend=null,hmChatMsgs=[];
-let hmMsgSub=null,hmCallCh=null,hmFriendSub=null,hmTypingCh=null;
-let hmActiveCall=null,hmLocalStream=null,hmPeerConn=null,hmRemoteStream=null;
-let hmCallTimerInterval=null,hmCallSeconds=0,hmIsMuted=false,hmIsCameraOff=false;
-let hmIncomingCallData=null,hmPendingFile=null,hmAiHistory=[],hmTypingTimer=null;
-let hmIsTyping=false,hmFriendTypingTimer=null,hmEmojiPickerBuilt=false,hmCurrentCallType=null;
-let hmCallConnectedOnce=false;
-let hmIsConnected=false; // whether HM account is linked in HS
-
-const HM_ICE_CONF={iceServers:[
-  {urls:'stun:stun.l.google.com:19302'},
-  {urls:'stun:stun1.l.google.com:19302'},
-  {urls:'turn:openrelay.metered.ca:80',username:'openrelayproject',credential:'openrelayproject'},
-  {urls:'turn:openrelay.metered.ca:443',username:'openrelayproject',credential:'openrelayproject'},
-  {urls:'turn:openrelay.metered.ca:443?transport=tcp',username:'openrelayproject',credential:'openrelayproject'}
-]};
-
-const HM_EMOJI_CATS=[
-  {icon:'😀',name:'Smileys',emojis:['😀','😂','🤣','😊','😍','🥰','😘','😎','🤩','😏','😒','😞','😔','😟','😕','🙁','☹️','😣','😖','😫','😩','🥺','😢','😭','😤','😠','😡','🤬','🤯','😳','🥵','🥶','😱','😨','😰','😥','😓','🤗','🤔','🫣','🤭','🤫','🤥','😶','😐','😑','😬','🙄','😯','😦','😧','😮','😲','🥱','😴','🤤','😪','😵','🤐','🥴','🤢','🤮','🤧','😷','🤒','🤕']},
-  {icon:'👋',name:'Gestures',emojis:['👋','🤚','🖐️','✋','🖖','👌','🤌','🤏','✌️','🤞','🤟','🤘','🤙','👈','👉','👆','👇','☝️','👍','👎','✊','👊','🤛','🤜','👏','🙌','👐','🤲','🙏','✍️','💪','🤳','💅']},
-  {icon:'❤️',name:'Hearts',emojis:['❤️','🧡','💛','💚','💙','💜','🖤','🤍','🤎','💔','❣️','💕','💞','💓','💗','💖','💘','💝','💟']},
-  {icon:'🐶',name:'Animals',emojis:['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼','🐨','🐯','🦁','🐮','🐷','🐸','🐵','🐔','🐧','🐦','🦆','🦅','🦉','🐺','🐴','🦄']},
-  {icon:'🍕',name:'Food',emojis:['🍕','🍔','🌮','🌯','🥗','🍜','🍝','🍛','🍣','🍱','🥟','🍤','🍙','🍚','🥐','🥖','🧀','🥚','🍳','🥞','🥓','🥩','🍗','🍟','🍦','🍪','🎂','🍰','🧁','🍫','🍬','🍭','☕','🍵','🥤','🍺','🍻','🥂','🍷']},
-  {icon:'⚽',name:'Sports',emojis:['⚽','🏀','🏈','⚾','🎾','🏐','🏉','🎱','🏓','🏸','🏒','🥊','🥋','🎽','🏆','🥇','🥈','🥉']},
-  {icon:'🚀',name:'Travel',emojis:['🚀','✈️','🛸','🚗','🚕','🚙','🚌','🚓','🚑','🚒','🛵','🏍️','🚲','🛴','⛵','🚤','🚢','🚂','🚆','🚇','🌍','🗺️','🧭','🏖️','🏔️']},
-  {icon:'💡',name:'Objects',emojis:['💡','🔦','🕯️','💰','💵','💳','💎','🔑','🗝️','🔐','🔒','🔓','🔨','🔧','⚙️','🔬','🔭','💊','🩹','🎒','👜','🧳','☂️','📦','📮','📝','📄','📋','📁','📎']}
-];
 
 /* ================================================================
    SHARED UTILITIES
@@ -1268,7 +736,7 @@ function onHorizenAccountLoaded(){
   if(!horizenAccount)return;
   document.getElementById('fp-horizen-tag').style.display='inline-flex';
   if(horizenAccount.wallpaper_url&&!localStorage.getItem('horizon_bg')){setBG(horizenAccount.wallpaper_url);}
-  loadFamilyRestrictions();startScreenTimeTracking();updateHMAccountPanelInfo();
+  loadFamilyRestrictions();startScreenTimeTracking();
 }
 
 /* ================================================================
@@ -1296,16 +764,7 @@ async function loadAccountStats(){
     document.getElementById('ha-apps').textContent=(apps||[]).length;
     const{data:member}=await sb.from('family_members').select('*,family:horizen_family(*)').eq('account_id',horizenAccount.id).maybeSingle();
     if(member)document.getElementById('ha-family-info').innerHTML=`<div style="font-size:13px;color:var(--accent);font-weight:700">${escHtml(member.family?.family_name||'My Family')}</div><div style="font-size:12px;color:#888;margin-top:4px">Role: ${member.role}</div>`;
-    updateHMAccountPanelInfo();
   }catch(e){}
-}
-function updateHMAccountPanelInfo(){
-  const el=document.getElementById('ha-hm-info');
-  if(hmIsConnected&&hmMyProfile){
-    el.innerHTML=`<div style="display:flex;align-items:center;gap:8px;color:var(--hm-green);font-size:13px;font-weight:700"><i class="fas fa-check-circle"></i> Connected as ${escHtml(hmMyProfile.display_name||hmMyProfile.username)}</div><div style="font-size:11px;color:#888;margin-top:4px">${hmFriends.length} friend${hmFriends.length!==1?'s':''}</div>`;
-  }else{
-    el.innerHTML='<div style="font-size:13px;color:#888">Not connected</div><div style="font-size:11px;color:#666;margin-top:4px">Click Messages in the status bar to connect</div>';
-  }
 }
 
 /* ================================================================
@@ -1316,7 +775,6 @@ function openSignInsPanel(){
   const body=document.getElementById('signins-body');body.innerHTML='';document.getElementById('signins-panel').classList.add('open');
   const rows=[];
   if(horizenAccount)rows.push(`<div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(0,235,132,0.06);border:1px solid rgba(0,235,132,0.2);border-radius:12px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#00a86b);display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:16px">${(horizenAccount.display_name||'?')[0].toUpperCase()}</div><div style="flex:1"><div style="font-size:14px;font-weight:700">${escHtml(horizenAccount.display_name||horizenAccount.username)}</div><div style="font-size:11px;color:#888">${escHtml(horizenAccount.email)} · Horizen Account</div></div><span style="font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(0,235,132,0.15);color:var(--accent);font-weight:800">ACTIVE</span></div>`);
-  if(hmIsConnected&&hmMyProfile)rows.push(`<div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(108,99,255,0.06);border:1px solid rgba(108,99,255,0.2);border-radius:12px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#6c63ff,#38bdf8);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px">${(hmMyProfile.display_name||'?')[0].toUpperCase()}</div><div style="flex:1"><div style="font-size:14px;font-weight:700">${escHtml(hmMyProfile.display_name||hmMyProfile.username)}</div><div style="font-size:11px;color:#888">${escHtml(hmMyProfile.username)} · HorizenMessages</div></div><span style="font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(108,99,255,0.15);color:#a78bfa;font-weight:800">ACTIVE</span></div>`);
   if(currentAdmin)rows.push(`<div style="display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,77,106,0.06);border:1px solid rgba(255,77,106,0.2);border-radius:12px;margin-bottom:8px"><div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,#ff4d6a,#ff9500);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:16px">A</div><div style="flex:1"><div style="font-size:14px;font-weight:700">${escHtml(currentAdmin.username)}</div><div style="font-size:11px;color:#888">Admin · ${escHtml(currentAdmin.role)}</div></div><span style="font-size:10px;padding:3px 8px;border-radius:6px;background:rgba(255,77,106,0.15);color:#ff4d6a;font-weight:800">ADMIN</span></div>`);
   if(!rows.length)rows.push('<div style="padding:20px;text-align:center;color:#888;font-size:13px">No accounts signed in</div>');
   body.innerHTML=rows.join('');
@@ -1329,7 +787,7 @@ function closeSignInsPanel(){document.getElementById('signins-panel').classList.
 function startScreenTimeTracking(){if(screenTimeInterval)clearInterval(screenTimeInterval);screenTimeLimitMinutes=familyRestrictions?.screen_time_limit_minutes||0;loadTodayScreenTime();screenTimeInterval=setInterval(async()=>{todayScreenMinutes++;document.getElementById('ha-screentime').textContent=todayScreenMinutes+' min';if(todayScreenMinutes%5===0)saveScreenTime();if(screenTimeLimitMinutes>0){const remaining=screenTimeLimitMinutes-todayScreenMinutes;if(remaining===10||remaining===5)showScreenTimeWarning(`You have ${remaining} minutes of screen time remaining today.`);if(remaining<=0){showScreenTimeWarning('Screen time limit reached.');lockBrowser();}}},60000);}
 async function loadTodayScreenTime(){if(!horizenAccount)return;try{const today=new Date().toISOString().split('T')[0];const{data}=await sb.from('screen_time_logs').select('minutes_used').eq('account_id',horizenAccount.id).eq('date',today).maybeSingle();todayScreenMinutes=data?.minutes_used||0;document.getElementById('ha-screentime').textContent=todayScreenMinutes+' min';}catch(e){}}
 async function saveScreenTime(){if(!horizenAccount)return;try{const today=new Date().toISOString().split('T')[0];await sb.from('screen_time_logs').upsert({account_id:horizenAccount.id,date:today,minutes_used:todayScreenMinutes},{onConflict:'account_id,date'});}catch(e){}}
-function showScreenTimeWarning(msg){const el=document.getElementById('screen-time-warning');document.getElementById('screen-time-warning');document.getElementById('stw-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),8000);}
+function showScreenTimeWarning(msg){const el=document.getElementById('screen-time-warning');document.getElementById('stw-msg').textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),8000);}
 async function loadFamilyRestrictions(){
   if(!horizenAccount)return;
   try{
@@ -1360,10 +818,10 @@ function toggleHistory(){const p=document.getElementById('history-panel'),o=docu
 
 /* ===== TABS & WINDOWS ===== */
 function saveTabs(){const tabs=openTabs.map(id=>({id,name:document.querySelector('#tab-'+id+' .tab-label')?.textContent?.trim()||'',src:document.querySelector('#view-'+id+' iframe')?.src||''}));localStorage.setItem('hz_open_tabs',JSON.stringify(tabs));}
-function restoreTabs(){try{JSON.parse(localStorage.getItem('hz_open_tabs')||'[]').forEach(t=>{if(t.id&&t.name&&!['home','results','store','hm'].includes(t.id)&&t.src)createNewTab(t.name,null,t.src,null,false);});}catch(e){}}
+function restoreTabs(){try{JSON.parse(localStorage.getItem('hz_open_tabs')||'[]').forEach(t=>{if(t.id&&t.name&&!['home','results','store'].includes(t.id)&&t.src)createNewTab(t.name,null,t.src,null,false);});}catch(e){}}
 function switchTab(id){document.querySelectorAll('.view-pane').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));const vp=document.getElementById('view-'+id),tb=document.getElementById('tab-'+id);if(vp)vp.classList.add('active');if(tb){tb.classList.add('active');tb.style.display='flex';}if(id==='store')loadAppStore();}
 function enableDrag(tab){tab.addEventListener('dragstart',()=>tab.classList.add('dragging'));tab.addEventListener('dragend',()=>{tab.classList.remove('dragging');saveTabs();});tab.addEventListener('dragover',e=>{e.preventDefault();const d=document.querySelector('.tab.dragging');if(!d||d===tab)return;const r=tab.getBoundingClientRect();tab.parentNode.insertBefore(d,(e.clientX-r.left)<r.width/2?tab:tab.nextSibling);});}
-const quickMap={'docs.google.com':'Google Docs','drive.google.com':'Google Drive','mail.google.com':'Gmail','youtube.com':'YouTube','twitter.com':'X','x.com':'X','facebook.com':'Facebook','instagram.com':'Instagram','reddit.com':'Reddit','github.com':'GitHub','wikipedia.org':'Wikipedia','amazon.com':'Amazon','netflix.com':'Netflix','spotify.com':'Spotify','discord.com':'Discord','twitch.tv':'Twitch','linkedin.com':'LinkedIn','tiktok.com':'TikTok','horizensearch.com':'Horizon Search','ai.horizensearch.com':'Horizen AI','gd.horizensearch.com':'Geometry Dash','messages.horizensearch.com':'HorizenMessages','family.horizensearch.com':'HorizenFamily'};
+const quickMap={'docs.google.com':'Google Docs','drive.google.com':'Google Drive','mail.google.com':'Gmail','youtube.com':'YouTube','twitter.com':'X','x.com':'X','facebook.com':'Facebook','instagram.com':'Instagram','reddit.com':'Reddit','github.com':'GitHub','wikipedia.org':'Wikipedia','amazon.com':'Amazon','netflix.com':'Netflix','spotify.com':'Spotify','discord.com':'Discord','twitch.tv':'Twitch','linkedin.com':'LinkedIn','tiktok.com':'TikTok','horizensearch.com':'Horizon Search','ai.horizensearch.com':'Horizen AI','gd.horizensearch.com':'Geometry Dash','family.horizensearch.com':'HorizenFamily'};
 function quickShorten(url){try{const u=new URL(url),h=u.hostname.replace(/^www\./,'');if(quickMap[h])return quickMap[h];for(const[d,l]of Object.entries(quickMap)){if(h.endsWith('.'+d))return l;}return null;}catch(e){return null;}}
 async function createNewTab(name,html,url,srcdoc,doSwitch=true){
   if(familyLocked){showToast('Browser is locked by your parent','HorizenFamily','🔒');return;}
@@ -1471,9 +929,8 @@ function removeBotTyping(){document.getElementById('bot-typing')?.remove();}
 async function sendBot(){
   const input=document.getElementById('bot-input');const msg=input.value.trim();input.value='';if(!msg)return;
   addBotMsg(msg,true);addBotTyping();const lower=msg.toLowerCase();
-  if(lower.startsWith('open ')){removeBotTyping();const q=msg.substring(5).trim();if(q==='messages'||q==='horizenmessages'){handleChatButtonClick();addBotMsg('Opened HorizenMessages.',false);return;}if(q.includes('.')||q.startsWith('http')){openUrl(q.includes('://')?q:'https://'+q);addBotMsg('Opened '+q,false);return;}performSearch(q);addBotMsg('Searched for "'+q+'".',false);return;}
+  if(lower.startsWith('open ')){removeBotTyping();const q=msg.substring(5).trim();if(q.includes('.')||q.startsWith('http')){openUrl(q.includes('://')?q:'https://'+q);addBotMsg('Opened '+q,false);return;}performSearch(q);addBotMsg('Searched for "'+q+'".',false);return;}
   if(lower.startsWith('search ')){removeBotTyping();performSearch(msg.substring(7).trim());addBotMsg('Searched!',false);return;}
-  if(lower==='open messages'||lower==='messages'){removeBotTyping();handleChatButtonClick();addBotMsg('Opened HorizenMessages!',false);return;}
   if(lower.startsWith('change wallpaper to ')){const query=msg.replace(/^change wallpaper to /i,'').trim();removeBotTyping();addBotMsg('Searching "'+query+'"...',false);try{const r=await fetch('https://api.pexels.com/v1/search?query='+encodeURIComponent(query)+'&per_page=6',{headers:{Authorization:PEXELS_KEY}});const d=await r.json();if(d.photos?.length){setBG(d.photos[0].src.large2x);addBotMsg('Wallpaper changed!',false);}else addBotMsg('No wallpapers found.',false);}catch(e){addBotMsg('Failed.',false);}return;}
   if(lower==='clear history'){removeBotTyping();clearHistory();addBotMsg('History cleared!',false);return;}
   const response=await getGroqChat(msg,'You are the Horizon OS Assistant. Keep answers short.');removeBotTyping();addBotMsg(response,false);
@@ -1519,484 +976,6 @@ function updateStatus(){document.getElementById('time').innerText=new Date().toL
 setInterval(updateStatus,1000);
 
 /* ================================================================
-   NEW: CHAT BUTTON IN STATUS BAR
-   - If HM not connected → asks to connect HM account
-   - If HM connected → asks if you want to call a friend
-   ================================================================ */
-function handleChatButtonClick(){
-  if(!hmIsConnected){
-    openHMConnectModal();
-  }else{
-    openHMFriendsModal();
-  }
-}
-
-/* ================================================================
-   NEW: HM CONNECT MODAL (link HorizenMessages account)
-   ================================================================ */
-function openHMConnectModal(){
-  document.getElementById('fp-popup').classList.remove('open');
-  const modal=document.getElementById('hm-connect-modal');
-  if(hmIsConnected){
-    document.getElementById('hm-connect-form').style.display='none';
-    document.getElementById('hm-connected-view').style.display='block';
-    document.getElementById('hm-connected-name').textContent=hmMyProfile?.display_name||hmMyProfile?.username||'?';
-  }else{
-    document.getElementById('hm-connect-form').style.display='block';
-    document.getElementById('hm-connected-view').style.display='none';
-  }
-  modal.classList.add('show');
-}
-function closeHMConnectModal(){document.getElementById('hm-connect-modal').classList.remove('show');}
-function switchHMTab(tab){
-  document.getElementById('hm-tab-login').classList.toggle('active',tab==='login');
-  document.getElementById('hm-tab-signup').classList.toggle('active',tab==='signup');
-  document.getElementById('hm-login-form').style.display=tab==='login'?'block':'none';
-  document.getElementById('hm-signup-form').style.display=tab==='signup'?'block':'none';
-  document.getElementById('hm-auth-btn').textContent=tab==='login'?'Sign In':'Create Account';
-  document.getElementById('hm-auth-msg').style.display='none';
-}
-function doHMAuth(){if(document.getElementById('hm-tab-login').classList.contains('active'))doHMLogin();else doHMSignup();}
-async function doHMLogin(){
-  const email=document.getElementById('hm-login-email').value.trim(),pass=document.getElementById('hm-login-pass').value,msgEl=document.getElementById('hm-auth-msg'),btn=document.getElementById('hm-auth-btn');
-  if(!email||!pass){msgEl.textContent='Please fill in all fields';msgEl.className='hm-auth-msg error';msgEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Signing in...';
-  try{
-    const{data,error}=await hmSb.auth.signInWithPassword({email,password:pass});
-    if(error){msgEl.textContent=error.message;msgEl.className='hm-auth-msg error';msgEl.style.display='block';btn.disabled=false;btn.textContent='Sign In';return;}
-    hmMe=data.user;
-    let p=(await hmSb.from('profiles').select('*').eq('id',data.user.id).single()).data;
-    if(!p){const un=data.user.user_metadata?.username||data.user.email?.split('@')[0]||'user';p=(await hmSb.from('profiles').upsert({id:data.user.id,username:un,display_name:un,status:'online'},{onConflict:'id'}).select().single()).data;}
-    hmMyProfile=p;
-    await hmSb.from('profiles').update({status:'online'}).eq('id',data.user.id);
-    hmIsConnected=true;
-    document.getElementById('fp-hm-tag').style.display='inline-flex';
-    closeHMConnectModal();
-    showToast('HorizenMessages connected as '+p.display_name,'Messages','✅');
-    initHMAfterConnect();
-  }catch(e){msgEl.textContent='Connection error: '+e.message;msgEl.className='hm-auth-msg error';msgEl.style.display='block';}
-  btn.disabled=false;btn.textContent='Sign In';
-}
-async function doHMSignup(){
-  const username=document.getElementById('hm-signup-username').value.trim(),email=document.getElementById('hm-signup-email').value.trim(),pass=document.getElementById('hm-signup-pass').value,msgEl=document.getElementById('hm-auth-msg'),btn=document.getElementById('hm-auth-btn');
-  if(!username||!email||!pass){msgEl.textContent='Please fill in all fields';msgEl.className='hm-auth-msg error';msgEl.style.display='block';return;}
-  if(pass.length<6){msgEl.textContent='Password must be at least 6 characters';msgEl.className='hm-auth-msg error';msgEl.style.display='block';return;}
-  btn.disabled=true;btn.textContent='Creating...';
-  try{
-    const{data,error}=await hmSb.auth.signUp({email,password:pass,options:{data:{username,display_name:username}}});
-    if(error){msgEl.textContent=error.message;msgEl.className='hm-auth-msg error';msgEl.style.display='block';btn.disabled=false;btn.textContent='Create Account';return;}
-    if(data.user&&data.session){
-      await hmSb.from('profiles').upsert({id:data.user.id,username,display_name:username,status:'online'},{onConflict:'id'});
-      hmMe=data.user;hmMyProfile={id:data.user.id,username,display_name:username,status:'online'};hmIsConnected=true;
-      document.getElementById('fp-hm-tag').style.display='inline-flex';
-      closeHMConnectModal();showToast('HM account created and connected!','Messages','🎉');initHMAfterConnect();
-    }else{msgEl.textContent='Account created! Check email to confirm, then sign in.';msgEl.className='hm-auth-msg success';msgEl.style.display='block';}
-  }catch(e){msgEl.textContent='Error: '+e.message;msgEl.className='hm-auth-msg error';msgEl.style.display='block';}
-  btn.disabled=false;btn.textContent='Create Account';
-}
-function disconnectHM(){
-  hmCleanupCall();
-  if(hmMyProfile)hmSb.from('profiles').update({status:'offline'}).eq('id',hmMyProfile.id).catch(()=>{});
-  hmSb.auth.signOut().catch(()=>{});
-  hmIsConnected=false;hmMe=null;hmMyProfile=null;hmFriends=[];hmPendingReqs=[];
-  document.getElementById('fp-hm-tag').style.display='none';
-  closeHMConnectModal();showToast('HorizenMessages disconnected','Messages','👋');
-  updateHMAccountPanelInfo();
-}
-
-/* Initialize HM features after connecting */
-async function initHMAfterConnect(){
-  document.getElementById('hm-my-av').textContent=(hmMyProfile.display_name||hmMyProfile.username||'?')[0].toUpperCase();
-  hmLoadFriends();
-  hmSubscribeCallChannel();
-  hmSubscribeFriendEvents();
-  updateHMAccountPanelInfo();
-  /* Create or show the HM tab */
-  if(!document.getElementById('tab-hm')){
-    const tab=document.createElement('div');tab.className='tab';tab.id='tab-hm';
-    tab.innerHTML=`<span class="tab-label"><i class="fas fa-comment-dots" style="color:#a78bfa;margin-right:4px;font-size:10px;"></i> Messages</span><span class="close-tab" onclick="closeHMTab(event)">&times;</span>`;
-    tab.onclick=()=>switchTab('hm');enableDrag(tab);
-    document.getElementById('tab-bar').insertBefore(tab,document.getElementById('add-win-btn'));
-  }
-  switchTab('hm');
-}
-
-function closeHMTab(e){
-  e.stopPropagation();
-  hmCleanupCall();
-  const tab=document.getElementById('tab-hm');if(tab)tab.remove();
-  switchTab('home');
-}
-
-/* ================================================================
-   NEW: HM FRIENDS CALL DIALER MODAL
-   ================================================================ */
-function openHMFriendsModal(){
-  const list=document.getElementById('hm-friends-list');
-  if(!hmIsConnected||!hmFriends.length){list.innerHTML='<div class="hm-no-friends"><i class="fas fa-user-plus" style="font-size:28px;display:block;margin-bottom:10px;"></i>No friends yet. Add friends in Messages first.</div>';}
-  else{list.innerHTML=hmFriends.map(f=>{const on=f.status==='online';return`<div class="hm-friend-call-item"><div class="hm-av">${(f.display_name||f.username||'?')[0].toUpperCase()}<div class="hm-sdot ${on?'on':''}"></div></div><div class="hm-fci-info"><div class="hm-fci-name">${escHtml(f.display_name||f.username)}</div><div class="hm-fci-status ${on?'on':''}">${on?'● Online':'Offline'}</div></div><div class="hm-fci-call-btns"><button class="hm-fci-call-btn" onclick="hmCallFriendFromDialer('${f.id}','audio',this)" title="Audio call"><i class="fas fa-phone"></i></button><button class="hm-fci-call-btn" onclick="hmCallFriendFromDialer('${f.id}','video',this)" title="Video call"><i class="fas fa-video"></i></button></div></div>`;}).join('');}
-  document.getElementById('hm-friends-modal').classList.add('show');
-}
-function closeHMFriendsModal(){document.getElementById('hm-friends-modal').classList.remove('show');}
-async function hmCallFriendFromDialer(friendId,type,btn){
-  closeHMFriendsModal();
-  /* Switch to HM tab and open the friend's chat first */
-  const friend=hmFriends.find(f=>f.id===friendId);if(!friend)return;
-  if(!document.getElementById('tab-hm')){await initHMAfterConnect();}
-  switchTab('hm');
-  hmOpenChat(friend);
-  /* Small delay then start call */
-  setTimeout(()=>hmStartCall(type),500);
-}
-
-/* ================================================================
-   NEW: NOTIFICATION HANDLERS (from HM Supabase realtime)
-   ================================================================ */
-function showMsgNotif(sender,text,lastSenderId){
-  document.getElementById('notif-sender').textContent=sender||'Someone';
-  document.getElementById('notif-text').textContent=(text||'sent you a message').substring(0,60);
-  document.getElementById('msg-notif').classList.add('show');
-  document.getElementById('msg-notif').dataset.senderId=lastSenderId||'';
-  clearTimeout(msgNotifTimer);msgNotifTimer=setTimeout(dismissMsgNotif,12000);
-  const badge=document.getElementById('chat-unread-badge');badge.style.display='inline-flex';badge.textContent=(parseInt(badge.textContent||'0')+1);
-}
-function dismissMsgNotif(){document.getElementById('msg-notif').classList.remove('show');document.getElementById('chat-unread-badge').style.display='none';document.getElementById('chat-unread-badge').textContent='0';}
-
-/* Voice Reply from notification */
-let voiceReplyRecognition=null;
-function voiceReplyFromNotif(){
-  const senderId=document.getElementById('msg-notif').dataset.senderId;
-  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){showToast('Voice not supported in this browser','Voice','🎤');return;}
-  dismissMsgNotif();
-  showToast('Listening for voice reply... Speak now','Voice','🎤');
-  voiceReplyRecognition=new SR();voiceReplyRecognition.lang='en-US';voiceReplyRecognition.interimResults=false;
-  voiceReplyRecognition.onresult=async(e)=>{
-    const text=e.results[0][0].transcript;
-    showToast('Sending: "'+text+'"','Voice','📤');
-    /* Find the friend and send the message */
-    const friend=hmFriends.find(f=>f.id===senderId);
-    if(friend){
-      if(!document.getElementById('tab-hm'))await initHMAfterConnect();
-      switchTab('hm');hmOpenChat(friend);
-      document.getElementById('hm-msg-input').value=text;
-      hmSendMessage();
-    }else{showToast('Could not find that conversation','Voice','⚠️');}
-  };
-  voiceReplyRecognition.onerror=()=>showToast('Voice recognition failed','Voice','❌');
-  voiceReplyRecognition.onend=()=>{voiceReplyRecognition=null;};
-  voiceReplyRecognition.start();
-}
-
-/* Call notification from HM realtime */
-let hmIncomingCallNotifData=null;
-let hmCallNotifTimeout=null;
-function showCallNotif(name,type,callData){
-  hmIncomingCallNotifData=callData;
-  document.getElementById('call-notif-av').textContent=(name||'?')[0].toUpperCase();
-  document.getElementById('call-notif-name').textContent=name||'Someone';
-  document.getElementById('call-notif-type').textContent=type==='video'?'📹 Video Call':'📞 Audio Call';
-  document.getElementById('call-notif').classList.add('show');
-  clearTimeout(hmCallNotifTimeout);
-  hmCallNotifTimeout=setTimeout(declineCallFromNotif,45000);
-}
-function declineCallFromNotif(){
-  clearTimeout(hmCallNotifTimeout);
-  if(hmIncomingCallNotifData){
-    hmSb.channel(`calls:${hmIncomingCallNotifData.from_id}`).send({type:'broadcast',event:'call_hangup',payload:{call_id:hmIncomingCallNotifData.call_id}}).catch(()=>{});
-    hmIncomingCallNotifData=null;
-  }
-  document.getElementById('call-notif').classList.remove('show');
-  showToast('Call declined','Call','📵');
-}
-async function acceptCallFromNotif(){
-  clearTimeout(hmCallNotifTimeout);
-  if(!hmIncomingCallNotifData)return;
-  const d=hmIncomingCallNotifData;
-  document.getElementById('call-notif').classList.remove('show');
-  /* Switch to HM tab */
-  if(!document.getElementById('tab-hm'))await initHMAfterConnect();
-  switchTab('hm');
-  /* Set up as incoming call in HM */
-  hmIncomingCallData={...d,_timeout:setTimeout(()=>{if(hmIncomingCallData)hmDeclineCall()},45000)};
-  hmAcceptCall();
-  hmIncomingCallNotifData=null;
-}
-
-/* ================================================================
-   HORIZENMESSAGES: NAVIGATION
-   ================================================================ */
-function hmSwitchPanel(name){document.querySelectorAll('.hm-panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.hm-nav-btn').forEach(b=>b.classList.remove('active'));document.getElementById('hm-panel-'+name).classList.add('active');document.getElementById('hm-nav-'+name).classList.add('active');}
-
-/* ================================================================
-   HORIZENMESSAGES: EMOJI PICKER
-   ================================================================ */
-function hmBuildEmojiPicker(){if(hmEmojiPickerBuilt)return;hmEmojiPickerBuilt=true;const cats=document.getElementById('hm-emoji-cats');HM_EMOJI_CATS.forEach((cat,i)=>{const b=document.createElement('button');b.className='hm-emoji-cat'+(i===0?' active':'');b.title=cat.name;b.textContent=cat.icon;b.onclick=()=>{document.querySelectorAll('.hm-emoji-cat').forEach(x=>x.classList.remove('active'));b.classList.add('active');hmRenderEmojiGrid(cat.emojis);};cats.appendChild(b);});hmRenderEmojiGrid(HM_EMOJI_CATS[0].emojis);}
-function hmRenderEmojiGrid(emojis){const grid=document.getElementById('hm-emoji-grid');grid.innerHTML='';emojis.forEach(e=>{const b=document.createElement('button');b.className='hm-emoji-btn-grid';b.textContent=e;b.onclick=()=>hmInsertEmoji(e);grid.appendChild(b);});}
-function hmToggleEmojiPicker(ev){ev.stopPropagation();hmBuildEmojiPicker();document.getElementById('hm-emoji-picker').classList.toggle('show');}
-function hmCloseEmojiPicker(){document.getElementById('hm-emoji-picker').classList.remove('show');}
-function hmInsertEmoji(e){const inp=document.getElementById('hm-msg-input');const pos=inp.selectionStart;inp.value=inp.value.slice(0,pos)+e+inp.value.slice(inp.selectionEnd);inp.selectionStart=inp.selectionEnd=pos+e.length;inp.focus();autoResize(inp);hmCloseEmojiPicker();}
-
-/* ================================================================
-   HORIZENMESSAGES: FRIENDS
-   ================================================================ */
-async function hmLoadFriends(){
-  const{data:rels}=await hmSb.from('friendships').select('requester_id,addressee_id,status').eq('status','accepted').or(`requester_id.eq.${hmMyProfile.id},addressee_id.eq.${hmMyProfile.id}`);
-  const friendIds=[...new Set((rels||[]).map(r=>r.requester_id===hmMyProfile.id?r.addressee_id:r.requester_id))];
-  const{data:profs}=await hmSb.from('profiles').select('*').in('id',friendIds);
-  hmFriends=profs||[];
-  const{data:pend}=await hmSb.from('friendships').select('id,requester_id,addressee_id,status,requester:profiles!friendships_requester_id_fkey(*)').eq('addressee_id',hmMyProfile.id).eq('status','pending');
-  hmPendingReqs=pend||[];
-  hmRenderFriendList();hmRenderPendingList();hmUpdateReqBadge();updateHMAccountPanelInfo();
-}
-function hmUpdateReqBadge(){const b=document.getElementById('hm-req-badge'),l=document.getElementById('hm-req-count-label');if(hmPendingReqs.length){b.style.display='block';l.innerHTML=`<span class="hm-req-count">${hmPendingReqs.length}</span>`;}else{b.style.display='none';l.innerHTML='';}}
-async function hmRenderFriendList(){
-  const el=document.getElementById('hm-friend-list');
-  if(!hmFriends.length){el.innerHTML='<div style="padding:16px;color:var(--hm-text3);text-align:center;font-size:12px">No friends yet.</div>';return;}
-  el.innerHTML='';
-  for(const f of hmFriends){
-    const{data:last}=await hmSb.from('messages').select('*').or(`and(sender_id.eq.${hmMyProfile.id},sent_to.eq.${f.id}),and(sender_id.eq.${f.id},sent_to.eq.${hmMyProfile.id})`).order('created_at',{ascending:false}).limit(1);
-    const lm=last?.[0],isOnline=f.status==='online';
-    const item=document.createElement('div');item.className='hm-fi'+(hmActiveFriend?.id===f.id?' active':'');item.dataset.fid=f.id;item.onclick=()=>hmOpenChat(f);
-    const preview=lm?(lm.type==='file'?'📎 '+(lm.content||'File'):(lm.type==='call'?'📞 Call':(lm.content||'').substring(0,30))):'Say hello!';
-    item.innerHTML=`<div class="hm-av">${(f.username||'?')[0].toUpperCase()}<div class="hm-sdot ${isOnline?'on':''}"></div></div><div class="hm-fi-info"><div class="hm-fi-name">${escH(f.display_name||f.username)}</div><div class="hm-fi-sub">${escH(preview)}</div></div><div class="hm-fi-meta"><div class="hm-fi-time">${lm?dayjs(lm.created_at).fromNow(true):''}</div></div>`;
-    el.appendChild(item);
-  }
-}
-function hmFilterFriends(){const q=document.getElementById('hm-friend-search').value.toLowerCase();document.querySelectorAll('#hm-friend-list .hm-fi').forEach(e=>e.style.display=e.querySelector('.hm-fi-name').textContent.toLowerCase().includes(q)?'':'none');}
-function hmRenderPendingList(){
-  const el=document.getElementById('hm-pending-list');el.innerHTML='';
-  if(hmPendingReqs.length){const s=document.createElement('div');s.className='hm-sec-lbl';s.textContent=`Requests (${hmPendingReqs.length})`;el.appendChild(s);hmPendingReqs.forEach(req=>{const d=document.createElement('div');d.className='hm-fi';d.innerHTML=`<div class="hm-av" style="width:24px;height:24px;font-size:9px">${(req.requester.username||'?')[0].toUpperCase()}</div><div class="hm-fi-info"><div class="hm-fi-name">${escH(req.requester.display_name||req.requester.username)}</div><div class="hm-fi-sub">Friend request</div></div><div style="display:flex;gap:3px"><button class="hm-fbtn" onclick="event.stopPropagation();hmAcceptFriend('${req.id}')">✓</button><button class="hm-fbtn" onclick="event.stopPropagation();hmDeclineFriend('${req.id}')">✕</button></div>`;el.appendChild(d);});}
-  if(hmFriends.length){const s2=document.createElement('div');s2.className='hm-sec-lbl';s2.textContent=`Friends (${hmFriends.length})`;el.appendChild(s2);hmFriends.forEach(f=>{const d=document.createElement('div');d.className='hm-fi';d.onclick=()=>{hmSwitchPanel('friends');hmOpenChat(f);};const on=f.status==='online';d.innerHTML=`<div class="hm-av" style="width:24px;height:24px;font-size:9px">${(f.username||'?')[0].toUpperCase()}<div class="hm-sdot ${on?'on':''}"></div></div><div class="hm-fi-info"><div class="hm-fi-name">${escH(f.display_name||f.username)}</div><div class="hm-fi-sub ${on?'on':''}">${on?'● Online':'Offline'}</div></div>`;el.appendChild(d);});}
-  if(!hmPendingReqs.length&&!hmFriends.length)el.innerHTML='<div style="padding:16px;color:var(--hm-text3);text-align:center;font-size:12px">No pending requests</div>';
-}
-function hmFilterPending(){const q=document.getElementById('hm-pending-search').value.toLowerCase();document.querySelectorAll('#hm-pending-list .hm-fi').forEach(e=>{const n=e.querySelector('.hm-fi-name');if(n)e.style.display=n.textContent.toLowerCase().includes(q)?'':'none';});}
-async function hmAcceptFriend(id){await hmSb.from('friendships').update({status:'accepted'}).eq('id',id);await hmLoadFriends();showToast('Friend added!','Messages','✅');}
-async function hmDeclineFriend(id){await hmSb.from('friendships').delete().eq('id',id);await hmLoadFriends();}
-function hmSubscribeFriendEvents(){hmFriendSub=hmSb.channel(`fr:${hmMyProfile.id}`).on('postgres_changes',{event:'*',schema:'public',table:'friendships'},()=>hmLoadFriends()).subscribe();}
-
-/* ===== HM ADD FRIEND MODAL ===== */
-function hmShowAddFriendModal(){document.getElementById('hm-add-friend-modal').classList.add('show');document.getElementById('hm-friend-user-results').innerHTML='';document.getElementById('hm-friend-user-search').value='';document.getElementById('hm-friend-user-search').focus();}
-function hmCloseAddFriendModal(){document.getElementById('hm-add-friend-modal').classList.remove('show');}
-async function hmSearchUsersForFriend(){
-  const q=document.getElementById('hm-friend-user-search').value.trim(),res=document.getElementById('hm-friend-user-results');
-  if(q.length<2){res.innerHTML='';return;}
-  const{data}=await hmSb.from('profiles').select('*').ilike('username',`%${q}%`).neq('id',hmMyProfile.id).limit(8);
-  const{data:ex}=await hmSb.from('friendships').select('*').or(`requester_id.eq.${hmMyProfile.id},addressee_id.eq.${hmMyProfile.id}`);
-  const exMap={};(ex||[]).forEach(f=>{const o=f.requester_id===hmMyProfile.id?f.addressee_id:f.requester_id;exMap[o]=f.status;});
-  res.innerHTML='';
-  (data||[]).forEach(user=>{const st=exMap[user.id];const btn=st==='accepted'?'<span class="hm-bsm pend">Friends ✓</span>':st==='pending'?'<span class="hm-bsm pend">Pending…</span>':`<button class="hm-bsm add" onclick="hmSendFriendReq('${user.id}',this)">Add</button>`;const d=document.createElement('div');d.className='hm-ures';d.innerHTML=`<div class="hm-ures-l"><div class="hm-av" style="width:28px;height:28px;font-size:10px">${(user.username||'?')[0].toUpperCase()}</div><div><div style="font-weight:600;font-size:12px;font-family:'Syne',sans-serif">${escH(user.display_name||user.username)}</div><div style="color:var(--hm-text2);font-size:10px">@${escH(user.username)}</div></div></div>${btn}`;res.appendChild(d);});
-}
-async function hmSendFriendReq(id,btn){const{error}=await hmSb.from('friendships').insert({requester_id:hmMyProfile.id,addressee_id:id,status:'pending'});if(error)return showToast(error.message);btn.textContent='Pending…';btn.className='hm-bsm pend';btn.disabled=true;showToast('Request sent!','Messages','📤');}
-
-/* ================================================================
-   HORIZENMESSAGES: CHAT
-   ================================================================ */
-async function hmOpenChat(friend){
-  hmActiveFriend=friend;
-  document.getElementById('hm-empty-state').style.display='none';
-  document.getElementById('hm-active-chat').style.display='flex';
-  document.getElementById('hm-chat-av').textContent=(friend.display_name||friend.username||'?')[0].toUpperCase();
-  document.getElementById('hm-chat-name').textContent=friend.display_name||friend.username||'Unknown';
-  document.getElementById('hm-chat-status').textContent=friend.status==='online'?'● Online':'Offline';
-  document.querySelectorAll('#hm-friend-list .hm-fi').forEach(e=>e.classList.toggle('active',e.dataset.fid===friend.id));
-  if(hmMsgSub){hmMsgSub.unsubscribe();hmMsgSub=null;}
-  if(hmTypingCh){hmTypingCh.unsubscribe();hmTypingCh=null;}
-  hmClearTypingIndicator();
-  await hmLoadChatMsgs();
-  const ck=[hmMyProfile.id,friend.id].sort().join('-');
-  hmMsgSub=hmSb.channel(`dm:${ck}`).on('postgres_changes',{event:'INSERT',schema:'public',table:'messages'},p=>{const m=p.new;if((m.sender_id===hmMyProfile.id&&m.sent_to===friend.id)||(m.sender_id===friend.id&&m.sent_to===hmMyProfile.id))hmAppendMsg(m);}).subscribe();
-  hmTypingCh=hmSb.channel(`typing:${ck}`).on('broadcast',{event:'typing'},pl=>{if(pl.payload.uid!==hmMyProfile.id)hmShowFriendTyping(pl.payload.name);}).on('broadcast',{event:'stop_typing'},pl=>{if(pl.payload.uid!==hmMyProfile.id)hmClearTypingIndicator();}).subscribe();
-}
-function hmShowFriendTyping(name){clearTimeout(hmFriendTypingTimer);document.getElementById('hm-typing-dots').style.display='flex';document.getElementById('hm-typing-label').textContent=name+' is typing...';hmFriendTypingTimer=setTimeout(hmClearTypingIndicator,3000);}
-function hmClearTypingIndicator(){document.getElementById('hm-typing-dots').style.display='none';document.getElementById('hm-typing-label').textContent='';}
-async function hmLoadChatMsgs(){
-  if(!hmActiveFriend)return;
-  const{data}=await hmSb.from('messages').select('*').or(`and(sender_id.eq.${hmMyProfile.id},sent_to.eq.${hmActiveFriend.id}),and(sender_id.eq.${hmActiveFriend.id},sent_to.eq.${hmMyProfile.id})`).order('created_at',{ascending:true});
-  hmChatMsgs=data||[];hmRenderMsgs();
-}
-function hmRenderMsgs(){
-  const c=document.getElementById('hm-msgs');c.innerHTML='';let lastDate='';
-  hmChatMsgs.forEach(m=>{const d=dayjs(m.created_at).format('MMMM D, YYYY');if(d!==lastDate){lastDate=d;const dv=document.createElement('div');dv.className='hm-day-div';dv.textContent=d;c.appendChild(d);}hmAppendMsgDOM(m,c);});
-  c.scrollTop=c.scrollHeight;
-}
-function hmAppendMsg(m){hmChatMsgs.push(m);const c=document.getElementById('hm-msgs');const lastDayEl=c.querySelectorAll('.hm-day-div');const lastD=lastDayEl.length?lastDayEl[lastDayEl.length-1].textContent:'';const newD=dayjs(m.created_at).format('MMMM D, YYYY');if(newD!==lastD){const dv=document.createElement('div');dv.className='hm-day-div';dv.textContent=newD;c.appendChild(dv);}hmAppendMsgDOM(m,c);c.scrollTop=c.scrollHeight;hmRenderFriendList();}
-function hmAppendMsgDOM(m,container){
-  const isMine=m.sender_id===hmMyProfile.id;const row=document.createElement('div');row.className='hm-mrow'+(isMine?' mine':'');
-  if(m.type==='call'){const bub=document.createElement('div');bub.className='hm-mbub call-ev';bub.textContent=m.content+(m.duration?' · '+fmtDur(m.duration):'');const time=document.createElement('span');time.className='hm-mtime';time.textContent=dayjs(m.created_at).format('h:mm A');row.appendChild(bub);row.appendChild(time);}
-  else if(m.type==='file'&&m.file_url){
-    if(isMine){const time=document.createElement('span');time.className='hm-mtime';time.textContent=dayjs(m.created_at).format('h:mm A');row.appendChild(time);}
-    const a=document.createElement('a');a.className='hm-file-bubble';a.href=m.file_url;a.target='_blank';a.download=m.content||'file';a.innerHTML=`<span class="hm-file-icon">${fileIcon(m.content||'')}</span><div class="hm-file-info"><div class="hm-file-name">${escH(m.content||'File')}</div>${m.file_size?'<div class="hm-file-size">'+fmtSize(m.file_size)+'</div>':''}</div>`;row.appendChild(a);
-    if(!isMine){const time=document.createElement('span');time.className='hm-mtime';time.textContent=dayjs(m.created_at).format('h:mm A');row.appendChild(time);}
-  }else{
-    if(!isMine){const av=document.createElement('div');av.className='hm-av hm-mav';av.style.cssText='width:24px;height:24px;font-size:9px;';av.textContent=(hmActiveFriend?.display_name||hmActiveFriend?.username||'?')[0].toUpperCase();row.appendChild(av);}
-    const bub=document.createElement('div');bub.className='hm-mbub'+(isMine?' mine':' theirs')+(m.is_ai?' ai-msg':'');bub.innerHTML=escH(m.content||'');row.appendChild(bub);
-    const time=document.createElement('span');time.className='hm-mtime';time.textContent=dayjs(m.created_at).format('h:mm A');row.appendChild(time);
-  }
-  container.appendChild(row);
-}
-
-/* ===== HM SEND MESSAGE ===== */
-async function hmSendMessage(){
-  if(!hmActiveFriend)return;
-  const inp=document.getElementById('hm-msg-input');const text=inp.value.trim();
-  if(!text&&!hmPendingFile)return;
-  hmSendStopTyping();
-  if(hmPendingFile){
-    const file=hmPendingFile;const fp='chats/'+[hmMyProfile.id,hmActiveFriend.id].sort().join('/')+'/'+Date.now()+'_'+file.name;
-    document.getElementById('hm-file-preview-bar').classList.remove('show');
-    const{data:ud,error:ue}=await hmSb.storage.from('chat-files').upload(fp,file);
-    if(ue){showToast('Upload failed: '+ue.message);hmClearFile();return;}
-    const{data:urlD}=hmSb.storage.from('chat-files').getPublicUrl(fp);
-    await hmSb.from('messages').insert({sender_id:hmMyProfile.id,sent_to:hmActiveFriend.id,content:file.name,type:'file',file_url:urlD?.publicUrl+'?t='+Date.now(),file_size:file.size});
-    hmClearFile();
-  }
-  if(text)await hmSb.from('messages').insert({sender_id:hmMyProfile.id,sent_to:hmActiveFriend.id,content:text,type:'text'});
-  inp.value='';autoResize(inp);
-}
-function hmHandleMsgKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();hmSendMessage();}}
-function hmOnMsgInput(el){
-  autoResize(el);if(!hmActiveFriend)return;
-  const ck=[hmMyProfile.id,hmActiveFriend.id].sort().join('-');
-  if(!hmIsTyping){hmIsTyping=true;hmSb.channel(`typing:${ck}`).send({type:'broadcast',event:'typing',payload:{uid:hmMyProfile.id,name:hmMyProfile.display_name||hmMyProfile.username}});}
-  clearTimeout(hmTypingTimer);hmTypingTimer=setTimeout(hmSendStopTyping,2500);
-}
-function hmSendStopTyping(){if(!hmIsTyping||!hmActiveFriend){hmIsTyping=false;return;}hmIsTyping=false;clearTimeout(hmTypingTimer);const ck=[hmMyProfile.id,hmActiveFriend.id].sort().join('-');hmSb.channel(`typing:${ck}`).send({type:'broadcast',event:'stop_typing',payload:{uid:hmMyProfile.id}});}
-
-/* ===== HM FILE HANDLING ===== */
-function hmOnFileSelected(input){const file=input.files[0];if(!file)return;if(file.size>10*1024*1024)return showToast('File too large (max 10 MB)');hmPendingFile=file;document.getElementById('hm-file-preview-bar').classList.add('show');document.getElementById('hm-file-preview-name').textContent=file.name+' ('+fmtSize(file.size)+')';document.getElementById('hm-file-preview-icon').textContent=fileIcon(file.name);input.value='';}
-function hmClearFile(){hmPendingFile=null;document.getElementById('hm-file-preview-bar').classList.remove('show');}
-
-/* ================================================================
-   HORIZENMESSAGES: CALL SIGNALING + NOTIFICATIONS
-   ================================================================ */
-function hmSubscribeCallChannel(){
-  hmCallCh=hmSb.channel(`calls:${hmMyProfile.id}`)
-    .on('broadcast',{event:'call_offer'},(payload)=>{
-      const d=payload.payload;
-      /* Show HS-level notification instead of HM-level */
-      showCallNotif(d.caller_name, d.callType, d);
-    })
-    .on('broadcast',{event:'call_answer'},async(payload)=>{
-      const d=payload.payload;if(!hmActiveCall||d.call_id!==hmActiveCall.callId)return;
-      try{await hmPeerConn.setRemoteDescription(new RTCSessionDescription(d.answer));}catch(e){}
-    })
-    .on('broadcast',{event:'call_ice_candidate'},async(payload)=>{
-      const d=payload.payload;if(!hmPeerConn||d.call_id!==hmActiveCall?.callId)return;
-      try{await hmPeerConn.addIceCandidate(new RTCIceCandidate(d.candidate));}catch(e){}
-    })
-    .on('broadcast',{event:'call_hangup'},()=>{
-      hmCleanupCall();showToast('Call ended','Call','📞');
-    })
-    .subscribe();
-}
-
-/* ===== HM START OUTGOING CALL ===== */
-async function hmStartCall(type){
-  if(!hmActiveFriend)return showToast('Select a friend first');
-  if(hmActiveCall||hmIncomingCallData)return showToast('Already in a call');
-  hmCurrentCallType=type;hmCallConnectedOnce=false;
-  try{hmLocalStream=await navigator.mediaDevices.getUserMedia({audio:true,video:type==='video'});}catch(e){return showToast('Could not access '+(type==='video'?'camera/mic':'microphone'));}
-  const callId=genId();
-  hmActiveCall={callId,toId:hmActiveFriend.id,toName:hmActiveFriend.display_name||hmActiveFriend.username,type,isInitiator:true};
-  hmCreatePeerConnection(type);
-  hmLocalStream.getTracks().forEach(t=>hmPeerConn.addTrack(t,hmLocalStream));
-  if(type==='video')document.getElementById('hm-local-video').srcObject=hmLocalStream;
-  try{const offer=await hmPeerConn.createOffer();await hmPeerConn.setLocalDescription(offer);}catch(e){hmCleanupCall();return showToast('Failed to create call');}
-  hmSb.channel(`calls:${hmActiveFriend.id}`).send({type:'broadcast',event:'call_offer',payload:{call_id:callId,from_id:hmMyProfile.id,caller_name:hmMyProfile.display_name||hmMyProfile.username,callType:type,offer:hmPeerConn.localDescription}});
-}
-
-/* ===== HM ACCEPT INCOMING CALL ===== */
-async function hmAcceptCall(){
-  if(!hmIncomingCallData)return;
-  const d=hmIncomingCallData;clearTimeout(d._timeout);
-  hmCurrentCallType=d.callType;hmCallConnectedOnce=false;
-  hmActiveCall={callId:d.call_id,toId:d.from_id,toName:d.caller_name,type:d.callType,isInitiator:false};
-  try{hmLocalStream=await navigator.mediaDevices.getUserMedia({audio:true,video:d.callType==='video'});}catch(e){hmCleanupCall();return showToast('Could not access media');}
-  hmCreatePeerConnection(d.callType);
-  hmLocalStream.getTracks().forEach(t=>hmPeerConn.addTrack(t,hmLocalStream));
-  if(d.callType==='video')document.getElementById('hm-local-video').srcObject=hmLocalStream;
-  try{await hmPeerConn.setRemoteDescription(new RTCSessionDescription(d.offer));const answer=await hmPeerConn.createAnswer();await hmPeerConn.setLocalDescription(answer);}catch(e){hmCleanupCall();return showToast('Failed to accept call');}
-  hmSb.channel(`calls:${d.from_id}`).send({type:'broadcast',event:'call_answer',payload:{call_id:d.call_id,answer:hmPeerConn.localDescription}});
-  hmIncomingCallData=null;
-}
-function hmDeclineCall(){
-  if(!hmIncomingCallData)return;
-  clearTimeout(hmIncomingCallData._timeout);
-  hmSb.channel(`calls:${hmIncomingCallData.from_id}`).send({type:'broadcast',event:'call_hangup',payload:{call_id:hmIncomingCallData.call_id}}).catch(()=>{});
-  hmIncomingCallData=null;
-}
-
-/* ===== HM PEER CONNECTION ===== */
-function hmCreatePeerConnection(type){
-  hmPeerConn=new RTCPeerConnection(HM_ICE_CONF);hmIsMuted=false;hmIsCameraOff=false;
-  hmRemoteStream=new MediaStream();
-  if(type==='video')document.getElementById('hm-remote-video').srcObject=hmRemoteStream;
-  hmPeerConn.onicecandidate=(e)=>{if(!e.candidate||!hmActiveCall)return;hmSb.channel(`calls:${hmActiveCall.toId}`).send({type:'broadcast',event:'call_ice_candidate',payload:{call_id:hmActiveCall.callId,candidate:e.candidate}});};
-  hmPeerConn.ontrack=(e)=>{e.streams[0].getTracks().forEach(track=>hmRemoteStream.addTrack(track));if(type==='audio'){let audioEl=document.getElementById('hm-remote-audio-el');if(!audioEl){audioEl=document.createElement('audio');audioEl.id='hm-remote-audio-el';audioEl.autoplay=true;audioEl.playsInline=true;document.getElementById('hm-app-container').appendChild(audioEl);}audioEl.srcObject=hmRemoteStream;}if(!hmCallConnectedOnce){hmCallConnectedOnce=true;hmOnCallConnected();}};
-  hmPeerConn.onconnectionstatechange=()=>{const s=hmPeerConn.connectionState;if(s==='disconnected'||s==='failed'||s==='closed'){hmCleanupCall();showToast('Call disconnected','Call','📞');}};
-}
-
-/* ===== HM CALL CONNECTED ===== */
-function hmOnCallConnected(){
-  if(!hmActiveCall)return;
-  const type=hmActiveCall.type,name=hmActiveCall.toName;
-  if(type==='audio'){
-    document.getElementById('hm-audio-overlay').classList.add('show');
-    document.getElementById('hm-audio-call-av').textContent=name[0].toUpperCase();
-    document.getElementById('hm-audio-call-name').textContent=name;
-    document.getElementById('hm-audio-call-status').textContent='Connected';
-    document.getElementById('hm-audio-mute-btn').textContent='🎤';
-    document.getElementById('hm-audio-spk-btn').textContent='🔊';
-    hmCallSeconds=0;hmCallTimerInterval=setInterval(()=>{hmCallSeconds++;document.getElementById('hm-audio-call-timer').textContent=fmtDur(hmCallSeconds);},1000);
-  }else{
-    document.getElementById('hm-video-overlay').classList.add('show');
-    document.getElementById('hm-vid-call-name').textContent=name;
-    document.getElementById('hm-vid-status').textContent='Connected';
-    hmCallSeconds=0;hmCallTimerInterval=setInterval(()=>{hmCallSeconds++;document.getElementById('hm-vid-status').textContent=fmtDur(hmCallSeconds);},1000);
-  }
-  if(hmActiveFriend)hmSb.from('messages').insert({sender_id:hmMyProfile.id,sent_to:hmActiveCall.toId,content:type==='audio'?'📞 Audio call':'📹 Video call',type:'call'}).catch(()=>{});
-}
-
-/* ===== HM END CALL ===== */
-function hmEndCall(){if(hmActiveCall)hmSb.channel(`calls:${hmActiveCall.toId}`).send({type:'broadcast',event:'call_hangup',payload:{call_id:hmActiveCall.callId}}).catch(()=>{});hmCleanupCall();}
-
-/* ===== HM CLEANUP ===== */
-function hmCleanupCall(){
-  if(hmCallTimerInterval){clearInterval(hmCallTimerInterval);hmCallTimerInterval=null;}
-  hmCallSeconds=0;hmCallConnectedOnce=false;
-  if(hmPeerConn){try{hmPeerConn.close();}catch(e){}hmPeerConn=null;}
-  if(hmLocalStream){hmLocalStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});hmLocalStream=null;}
-  if(hmRemoteStream){hmRemoteStream.getTracks().forEach(t=>{try{t.stop();}catch(e){}});hmRemoteStream=null;}
-  const audioEl=document.getElementById('hm-remote-audio-el');if(audioEl){audioEl.srcObject=null;audioEl.remove();}
-  document.getElementById('hm-audio-overlay').classList.remove('show');
-  document.getElementById('hm-video-overlay').classList.remove('show');
-  document.getElementById('hm-remote-video').srcObject=null;
-  document.getElementById('hm-local-video').srcObject=null;
-  hmActiveCall=null;hmIncomingCallData=null;hmCurrentCallType=null;hmIsMuted=false;hmIsCameraOff=false;
-}
-
-/* ===== HM TOGGLE CONTROLS ===== */
-function hmToggleMuteAudio(){if(!hmLocalStream)return;hmIsMuted=!hmIsMuted;hmLocalStream.getAudioTracks().forEach(t=>t.enabled=!hmIsMuted);document.getElementById('hm-audio-mute-btn').textContent=hmIsMuted?'🔇':'🎤';}
-function hmToggleMute(){if(!hmLocalStream)return;hmIsMuted=!hmIsMuted;hmLocalStream.getAudioTracks().forEach(t=>t.enabled=!hmIsMuted);document.getElementById('hm-vid-mute-btn').textContent=hmIsMuted?'🔇':'🎤';document.getElementById('hm-vid-mute-btn').classList.toggle('off',hmIsMuted);}
-function hmToggleCamera(){if(!hmLocalStream)return;hmIsCameraOff=!hmIsCameraOff;hmLocalStream.getVideoTracks().forEach(t=>t.enabled=!hmIsCameraOff);document.getElementById('hm-vid-cam-btn').textContent=hmIsCameraOff?'🚫':'📷';document.getElementById('hm-vid-cam-btn').classList.toggle('off',hmIsCameraOff);}
-function hmToggleSpeaker(){const btn=document.getElementById('hm-audio-spk-btn');btn.textContent=btn.textContent==='🔊'?'🔈':'🔊';}
-
-/* ===== HM DO LOGOUT ===== */
-function hmDoLogout(){hmCleanupCall();if(hmMyProfile)hmSb.from('profiles').update({status:'offline'}).eq('id',hmMyProfile.id).catch(()=>{});hmSb.auth.signOut().catch(()=>{});hmIsConnected=false;hmMe=null;hmMyProfile=null;hmFriends=[];document.getElementById('fp-hm-tag').style.display='none';const tab=document.getElementById('tab-hm');if(tab)tab.remove();switchTab('home');showToast('Signed out of HorizenMessages','Messages','👋');updateHMAccountPanelInfo();}
-
-/* ===== HM AI PANEL ===== */
-function hmToggleAI(){document.getElementById('hm-ai-overlay').classList.toggle('show');}
-function hmAppendAIChat(role,text){const c=document.getElementById('hm-ai-msgs');const row=document.createElement('div');row.className='hm-ai-msg-row'+(role==='user'?' user':'');const av=document.createElement('div');av.className='hm-ai-msg-av '+(role==='user'?'human':'bot');av.textContent=role==='user'?(hmMyProfile?.display_name||'?')[0].toUpperCase():'🤖';const bub=document.createElement('div');bub.className='hm-ai-msg-bub '+(role==='user'?'human':'bot');bub.innerHTML=escH(text);row.appendChild(av);row.appendChild(bub);c.appendChild(row);c.scrollTop=c.scrollHeight;return bub;}
-async function hmSendAI(){
-  const inp=document.getElementById('hm-ai-input');const text=inp.value.trim();if(!text)return;inp.value='';autoResize(inp);
-  hmAppendAIChat('user',text);hmAiHistory.push({role:'user',content:text});
-  if(hmAiHistory.length===1)hmAiHistory.unshift({role:'system',content:'You are a helpful AI assistant inside HorizenMessages. Keep responses concise.'});
-  const typingBub=hmAppendAIChat('assistant','Thinking...');typingBub.style.color='var(--hm-text3)';
-  try{const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+HM_GROQ_KEY},body:JSON.stringify({model:'openai/gpt-oss-20b',messages:hmAiHistory.slice(-20),max_tokens:300,temperature:0.7})});const data=await res.json();const reply=data.choices?.[0]?.message?.content||'Sorry, could not generate a response.';typingBub.style.color='';typingBub.innerHTML=escH(reply);hmAiHistory.push({role:'assistant',content:reply});}catch(e){typingBub.style.color='';typingBub.textContent='Error: '+e.message;}
-}
-
-/* ================================================================
    EVENT LISTENERS
    ================================================================ */
 document.getElementById('addr-bar').addEventListener('keypress',e=>{if(e.key==='Enter')handleTopBar();});
@@ -2008,8 +987,6 @@ document.getElementById('new-win-modal').addEventListener('click',function(e){if
 document.getElementById('dev-tools-modal').addEventListener('click',function(e){if(e.target===this)closeDevTools();});
 document.getElementById('horizen-signin-modal').addEventListener('click',function(e){if(e.target===this)closeHorizenSignIn();});
 document.getElementById('signins-panel').addEventListener('click',function(e){if(e.target===this)closeSignInsPanel();});
-document.getElementById('hm-connect-modal').addEventListener('click',function(e){if(e.target===this)closeHMConnectModal();});
-document.getElementById('hm-friends-modal').addEventListener('click',function(e){if(e.target===this)closeHMFriendsModal();});
 
 /* ================================================================
    INIT
@@ -2017,7 +994,7 @@ document.getElementById('hm-friends-modal').addEventListener('click',function(e)
 window.onload=async()=>{
   const savedBG=localStorage.getItem('horizon_bg');if(savedBG)document.body.style.backgroundImage="url('"+savedBG+"')";
   updateStatus();restoreTabs();updateWifiIcon();
-  devLog('Horizon OS Pro Edition + HorizenMessages Initialized','info');
+  devLog('Horizon OS Pro Edition Initialized','info');
   const ok=await initHorizenBlocker();
   if(!ok){document.body.style.display='none';return;}
   if(horizenAccount){
@@ -2027,6 +1004,5 @@ window.onload=async()=>{
   loadAppStore();fetchWeather();
 };
 </script>
-<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"ee37d5fc67a746689fe260e5ff02e334","r":1}' crossorigin="anonymous"></script>
 </body>
 </html>
